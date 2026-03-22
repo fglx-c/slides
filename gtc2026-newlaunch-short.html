@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NVIDIA GTC 2026 — 新品发布（简短版）</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Nunito:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --white: #fafafa; --off-white: #f2f1ed; --black: #0a0a0a; --gray-900: #1a1a1a; --gray-700: #444; --gray-500: #777; --gray-300: #bbb; --gray-100: #e8e8e8;
+            --nvidia-green: #76b900; --nvidia-green-light: rgba(118,185,0,0.08); --nvidia-green-border: rgba(118,185,0,0.2);
+            --font-display: 'Archivo', sans-serif; --font-cn: 'Noto Sans SC', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+            --title-size: clamp(1.8rem, 5vw, 3.8rem); --h2-size: clamp(1.3rem, 3.2vw, 2.2rem); --h3-size: clamp(0.9rem, 1.8vw, 1.25rem);
+            --body-size: clamp(0.7rem, 1.2vw, 0.95rem); --small-size: clamp(0.6rem, 0.95vw, 0.8rem); --label-size: clamp(0.5rem, 0.75vw, 0.65rem);
+            --slide-padding: clamp(1.5rem, 4vw, 4rem); --content-gap: clamp(0.6rem, 1.5vw, 1.5rem); --element-gap: clamp(0.3rem, 0.8vw, 0.6rem);
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); --duration: 0.5s;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow-x: hidden; }
+        html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+        body { font-family: var(--font-cn); background: var(--white); color: var(--black); -webkit-font-smoothing: antialiased; }
+        .slide { width: 100vw; height: 100vh; height: 100dvh; overflow: hidden; scroll-snap-align: start; display: flex; flex-direction: column; position: relative; background: var(--white); }
+        .slide-content { flex: 1; display: flex; flex-direction: column; justify-content: center; max-height: 100%; overflow: hidden; padding: var(--slide-padding); padding-right: clamp(3rem, 6vw, 6rem); }
+        @media (max-height: 700px) { :root { --slide-padding: clamp(0.75rem,3vw,2rem); --content-gap: clamp(0.4rem,1.2vw,0.8rem); --title-size: clamp(1.4rem,4.5vw,2.5rem); --h2-size: clamp(1.1rem,2.8vw,1.6rem); } }
+        @media (max-height: 600px) { :root { --slide-padding: clamp(0.5rem,2.5vw,1.5rem); --content-gap: clamp(0.3rem,1vw,0.6rem); --title-size: clamp(1.2rem,4vw,2rem); --body-size: clamp(0.6rem,1vw,0.85rem); } .nav-dots,.footnote,.decorative { display: none; } }
+        @media (max-height: 500px) { :root { --slide-padding: clamp(0.4rem,2vw,1rem); --title-size: clamp(1rem,3.5vw,1.5rem); --h2-size: clamp(0.85rem,2.5vw,1.2rem); --body-size: clamp(0.55rem,0.9vw,0.75rem); } }
+        @media (max-width: 600px) { :root { --title-size: clamp(1.4rem,7vw,2.5rem); } }
+        @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: 0.01ms !important; transition-duration: 0.15s !important; } html { scroll-behavior: auto; } }
+        .grid-bg::before { content:''; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,0,0,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px); background-size: 80px 80px; pointer-events: none; }
+        .display-title { font-family: var(--font-display); font-size: var(--title-size); font-weight: 900; line-height: 1.0; letter-spacing: -1.5px; color: var(--black); }
+        .section-title { font-family: var(--font-display); font-size: var(--h2-size); font-weight: 800; line-height: 1.1; color: var(--black); }
+        .body-text { font-family: var(--font-cn); font-size: var(--body-size); font-weight: 400; line-height: 1.65; color: var(--gray-700); }
+        .label { font-family: var(--font-display); font-size: var(--label-size); font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gray-500); }
+        .green-tag { display: inline-block; background: var(--nvidia-green); color: #fff; font-family: var(--font-display); font-size: var(--label-size); font-weight: 700; padding: 3px 10px; border-radius: 3px; letter-spacing: 1.5px; text-transform: uppercase; }
+        .rule { width: clamp(35px,5vw,60px); height: 3px; background: var(--black); }
+        .rule-green { width: clamp(35px,5vw,60px); height: 3px; background: var(--nvidia-green); }
+        .footnote { font-family: var(--font-cn); font-size: var(--label-size); color: var(--gray-300); position: absolute; bottom: clamp(0.8rem,2vh,1.5rem); left: var(--slide-padding); }
+        .slide-num { position: absolute; top: clamp(0.8rem,2vh,1.5rem); right: clamp(1rem,3vw,2rem); font-family: var(--font-display); font-size: var(--small-size); font-weight: 700; color: var(--gray-300); }
+        .metrics-row { display: flex; gap: clamp(0.4rem,1vw,1rem); flex-wrap: wrap; }
+        .metric-box { flex: 1; min-width: clamp(100px,15vw,160px); background: var(--off-white); border-left: 3px solid var(--nvidia-green); padding: clamp(0.4rem,1vh,0.8rem) clamp(0.5rem,1vw,1rem); }
+        .metric-val { font-family: var(--font-display); font-size: clamp(1.2rem,2.5vw,2rem); font-weight: 900; color: var(--black); line-height: 1.1; }
+        .metric-label { font-family: var(--font-cn); font-size: var(--label-size); color: var(--gray-500); margin-top: 2px; }
+        .feat-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: clamp(0.4rem,1vw,0.8rem); }
+        .feat-card { background: var(--off-white); border: 1px solid var(--gray-100); border-radius: 4px; padding: clamp(0.5rem,1vw,1rem); }
+        .feat-card h4 { font-family: var(--font-display); font-size: var(--h3-size); font-weight: 700; color: var(--black); margin-bottom: 2px; }
+        .feat-card p { font-family: var(--font-cn); font-size: var(--small-size); color: var(--gray-500); line-height: 1.5; }
+        .feat-card .feat-mono { font-family: var(--font-mono); font-size: var(--label-size); color: var(--nvidia-green); font-weight: 500; margin-bottom: clamp(2px,0.3vh,4px); }
+        @media (max-width: 650px) { .feat-grid { grid-template-columns: 1fr; } }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1rem,2.5vw,2.5rem); align-items: start; }
+        @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+        .gap-sm{gap:var(--element-gap)}.gap-md{gap:var(--content-gap)}.flex-col{display:flex;flex-direction:column}
+        .deco-square { position: absolute; width: clamp(40px,6vw,80px); height: clamp(40px,6vw,80px); background: var(--nvidia-green); }
+        .deco-circle { position: absolute; width: clamp(50px,8vw,100px); height: clamp(50px,8vw,100px); border: 2.5px solid var(--black); border-radius: 50%; }
+        .reveal { opacity: 0; transform: translateY(18px); transition: opacity var(--duration) var(--ease-out-expo), transform var(--duration) var(--ease-out-expo); }
+        .slide.visible .reveal { opacity: 1; transform: translateY(0); }
+        .d1{transition-delay:.05s}.d2{transition-delay:.12s}.d3{transition-delay:.2s}.d4{transition-delay:.28s}.d5{transition-delay:.36s}.d6{transition-delay:.44s}
+        .progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: var(--nvidia-green); z-index: 9999; transition: width 0.3s ease; }
+        .nav-dots { position: fixed; right: clamp(0.6rem,1.5vw,1.2rem); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 9998; }
+        .nav-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gray-300); cursor: pointer; transition: all 0.25s ease; border: none; padding: 0; }
+        .nav-dot.active { background: var(--nvidia-green); transform: scale(1.3); }
+        .nav-dot:hover { background: var(--gray-500); }
+        .edit-hotzone { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 10000; cursor: pointer; }
+        .edit-toggle { position: fixed; top: 10px; left: 10px; background: var(--nvidia-green); color: #fff; border: none; border-radius: 4px; padding: 5px 12px; font-family: var(--font-cn); font-size: 12px; font-weight: 600; cursor: pointer; z-index: 10001; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
+        .edit-toggle.show,.edit-toggle.active { opacity: 1; pointer-events: auto; }
+        .editing-active [contenteditable="true"] { outline: 1.5px dashed var(--nvidia-green-border); outline-offset: 3px; cursor: text; }
+        .editing-active [contenteditable="true"]:focus { outline-color: var(--nvidia-green); background: var(--nvidia-green-light); }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <nav class="nav-dots" id="navDots" aria-label="Slide navigation"></nav>
+    <div class="edit-hotzone" id="editHotzone"></div>
+    <button class="edit-toggle" id="editToggle" title="Edit mode (E)">✏️ 编辑</button>
+
+ <!-- ===== SLIDE 1: 封面 ===== -->
+ <section class="slide grid-bg" data-slide="0">
+    <div class="deco-square decorative reveal d1" style="top:clamp(2.5rem,7vh,5rem);right:clamp(2.5rem,7vw,5rem)"></div>
+    <div class="deco-circle decorative reveal d3" style="bottom:clamp(2.5rem,7vh,5rem);left:clamp(2.5rem,7vw,5rem)"></div>
+    <div class="deco-dot decorative reveal d5" style="top:50%;right:clamp(2.5rem,7vw,5rem)"></div>
+    <div class="slide-content" style="max-width:900px">
+        <span class="label reveal d1">Mason Chai</span>
+        <div class="rule-green reveal d2" style="margin:var(--element-gap) 0"></div>
+        <h1 class="display-title reveal d3">NVIDIA GTC 2026<br>重点产品发布</h1>
+        <p class="body-text reveal d4" style="max-width:52ch;margin-top:var(--content-gap)">TLDR: NVIDIA 向全栈 AI 基础设施平台的更进一步</p>
+        <div class="metrics-row reveal d5" style="margin-top:var(--content-gap)">
+            <div class="metric-box"><div class="metric-val">$1万亿</div><div class="metric-label">AI 基础设施收入预期 (至2027)</div></div>
+            <div class="metric-box"><div class="metric-val">7 颗芯片</div><div class="metric-label">Vera Rubin 平台全新芯片组</div></div>
+            <div class="metric-box"><div class="metric-val">$193.7B</div><div class="metric-label">FY26 数据中心收入 (YoY +68%)</div></div>
+        </div>
+    </div>
+    <span class="footnote">Source: NVIDIA GTC 2026 Keynote, NVIDIA Q4 FY26 Earnings</span>
+</section>
+
+    <!-- ===== SLIDE 2: GROQ 3 LPX + VERA RUBIN POD ===== -->
+    <section class="slide grid-bg" data-slide="1">
+        <span class="slide-num">02 / 05</span>
+        <div class="slide-content">
+            <div class="flex-col gap-sm">
+                <span class="green-tag reveal d1">核心发布</span>
+                <h2 class="section-title reveal d2" style="margin-top:var(--element-gap)">Groq 3 LPX + Vera Rubin POD</h2>
+                <p class="body-text reveal d3" style="max-width:62ch">$200 亿收购的第一个产品 + 7 芯片 AI 工厂完整配置。GPU+LPU 混合架构重构推理经济学。</p>
+            </div>
+            <div class="two-col reveal d4" style="margin-top:var(--content-gap)">
+                <div class="flex-col gap-md">
+                    <div><span class="label">Groq 3 LPX · 首款非 GPU 推理机架</span><div class="rule" style="margin:var(--element-gap) 0"></div></div>
+                    <div class="feat-card" style="border-left:3px solid var(--nvidia-green)">
+                        <div class="feat-mono">256 LPU · 315 PFLOPS · Samsung 4nm</div>
+                        <h4>SRAM 架构推理加速</h4>
+                        <p>128 GB 片上 SRAM · 确定性纳秒级延迟<br>GPU 做预填充，LPU 做 Token 生成<br>万亿参数 35× 吞吐/MW · Q3 2026 出货</p>
+                    </div>
+                    <p class="body-text" style="font-size:var(--small-size);color:var(--gray-500)">$200 亿 acqui-hire 验证推理专用硬件长期价值。GPU+LPU 混合架构可能成为行业标准。</p>
+                </div>
+                <div class="flex-col gap-md">
+                    <div><span class="label">Vera Rubin POD · 完整 AI 工厂</span><div class="rule" style="margin:var(--element-gap) 0"></div></div>
+                    <div class="feat-card" style="border-left:3px solid var(--nvidia-green)">
+                        <div class="feat-mono">7 芯片 · 5 种专用机架</div>
+                        <h4>可配置 AI 基础设施</h4>
+                        <p>Rubin GPU + Vera CPU + Groq LPU + NVLink 6 + ConnectX-9 + BlueField-4 + Spectrum-6<br>推理成本降 10× vs Blackwell · 50 PFLOPS (FP4)</p>
+                    </div>
+                    <p class="body-text" style="font-size:var(--small-size);color:var(--gray-500)">不卖芯片卖 AI 工厂标准答案。搭配 DSX 参考设计 + 数字孪生蓝图实现一站式交付。</p>
+                </div>
+            </div>
+        </div>
+        <span class="footnote">Source: Forbes, Tom's Hardware, NVIDIA Developer Blog</span>
+    </section>
+
+    <!-- ===== SLIDE 3: NEMOCLAW + OPENSHELL + DLSS 5 ===== -->
+    <section class="slide grid-bg" data-slide="2">
+        <span class="slide-num">03 / 05</span>
+        <div class="slide-content">
+            <div class="flex-col gap-sm">
+                <span class="green-tag reveal d1">软件栈</span>
+                <h2 class="section-title reveal d2" style="margin-top:var(--element-gap)">NemoClaw + OpenShell + DLSS 5</h2>
+                <p class="body-text reveal d3" style="max-width:62ch">Agent 安全部署闭环 + 消费级 AI 图形升级。软件生态是全栈锁定的最后一环。</p>
+            </div>
+            <div class="feat-grid reveal d4" style="margin-top:var(--content-gap)">
+                <div class="feat-card" style="border-left:3px solid var(--nvidia-green)"><div class="feat-mono">NemoClaw · 开源</div><h4>本地 AI Agent 部署栈</h4><p>一键在 RTX PC / DGX 上部署安全 Agent。集成 NeMo + NIM + Nemotron。所有推理本地完成，零云端费用。</p></div>
+                <div class="feat-card" style="border-left:3px solid var(--nvidia-green)"><div class="feat-mono">OpenShell · Apache 2.0</div><h4>AI Agent 安全沙箱</h4><p>进程级隔离 · YAML 策略配置 · 细粒度权限管控 · 私有推理路由。填补"模型能跑"到"企业能部署"的最后一环。</p></div>
+                <div class="feat-card" style="border-left:3px solid var(--nvidia-green)"><div class="feat-mono">Nemotron 3 · 开源模型</div><h4>核心配套 Agentic AI 模型</h4><p>Nano 30B / Super 100B / Ultra 500B<br>Mamba-Transformer MoE · PinchBench 85.6% 开源 #1</p></div>
+                <div class="feat-card" style="border-left:3px solid var(--nvidia-green)"><div class="feat-mono">DLSS 5 · 2026 秋季</div><h4>AI 神经渲染</h4><p>从单帧推理重建 4K 光照/材质/环境。Bethesda / Capcom / Ubisoft / Tencent 已承诺。</p></div>
+            </div>
+            <div class="metrics-row reveal d5" style="margin-top:var(--content-gap)">
+                <div class="metric-box"><div class="metric-val">全栈闭环</div><div class="metric-label">硬件 → 沙箱 → 部署 → 模型 全部 NVIDIA</div></div>
+                <div class="metric-box"><div class="metric-val">85.6%</div><div class="metric-label">Nemotron 3 Super PinchBench (开源 #1)</div></div>
+            </div>
+        </div>
+        <span class="footnote">Source: MarkTechPost, NVIDIA Developer Blog, The FPS Review</span>
+    </section>
+
+    <!-- ===== SLIDE 4: FEYNMAN 2028 ===== -->
+    <section class="slide grid-bg" data-slide="3">
+        <span class="slide-num">04 / 05</span>
+        <div class="slide-content">
+            <div class="flex-col gap-sm">
+                <span class="green-tag reveal d1">路线图</span>
+                <h2 class="section-title reveal d2" style="margin-top:var(--element-gap)">Feynman 架构 2028 — 下一个十年的蓝图</h2>
+                <p class="body-text reveal d3" style="max-width:58ch">TSMC A16 (1.6nm) + 3D Die-Stacking + 定制 HBM5。两年一代节奏不变，每代性能跃迁幅度在扩大。</p>
+            </div>
+            <div class="feat-grid reveal d4" style="margin-top:var(--content-gap)">
+                <div class="feat-card" style="border-left:3px solid var(--nvidia-green)"><h4>Rosa CPU</h4><p>全新定制 CPU 架构，专为 AI 工厂优化。延续 Vera CPU 的 Agent/RL 执行环境逻辑。</p></div>
+                <div class="feat-card" style="border-left:3px solid var(--nvidia-green)"><h4>LP40 液冷处理单元</h4><p>风冷全面转向液冷。预估 TDP 4400W，能耗密度持续上升。</p></div>
+                <div class="feat-card" style="border-left:3px solid var(--nvidia-green)"><h4>BlueField-5 DPU</h4><p>第五代数据处理单元。延续 AI 原生存储方向。</p></div>
+                <div class="feat-card" style="border-left:3px solid var(--nvidia-green)"><h4>光学 NVLink</h4><p>下一代光学互联，面向百万 GPU 集群扩展。</p></div>
+            </div>
+            <div class="metrics-row reveal d5" style="margin-top:var(--content-gap)">
+                <div class="metric-box"><div class="metric-val">1.6nm</div><div class="metric-label">TSMC A16 工艺 · NVIDIA 可能是首个大批量客户</div></div>
+                <div class="metric-box"><div class="metric-val">2028</div><div class="metric-label">Hopper→Blackwell→Vera Rubin→Feynman 两年一代</div></div>
+                <div class="metric-box"><div class="metric-val">4400W</div><div class="metric-label">预估 TDP · 液冷成为必选项</div></div>
+            </div>
+        </div>
+        <span class="footnote">Source: Tom's Hardware, BigGo News, PurePC</span>
+    </section>
+
+    <!-- ===== SLIDE 5: 投资视角 ===== -->
+    <section class="slide grid-bg" data-slide="4">
+        <span class="slide-num">05 / 05</span>
+        <div class="deco-square decorative" style="bottom:clamp(2rem,5vh,4rem);right:clamp(2rem,5vw,4rem);opacity:0.5"></div>
+        <div class="slide-content">
+            <div class="flex-col gap-sm">
+                <span class="green-tag reveal d1">投资视角</span>
+                <h2 class="section-title reveal d2" style="margin-top:var(--element-gap)">核心要点与战略判断</h2>
+            </div>
+            <div class="two-col reveal d3" style="margin-top:var(--content-gap)">
+                <div class="flex-col gap-md">
+                    <div><span class="label">关键数据</span><div class="rule-green" style="margin:var(--element-gap) 0"></div></div>
+                    <div class="metric-box"><div class="metric-val">$1 万亿</div><div class="metric-label">至 2027 采购预期 (不含 CPU/网络/Groq)</div></div>
+                    <div class="metric-box"><div class="metric-val">$193.7B</div><div class="metric-label">FY26 数据中心收入 (YoY +68%)</div></div>
+                    <div class="metric-box"><div class="metric-val">100 万+</div><div class="metric-label">AWS 承诺部署 GPU + LPU</div></div>
+                </div>
+                <div class="flex-col gap-md">
+                    <div><span class="label">四个判断</span><div class="rule-green" style="margin:var(--element-gap) 0"></div></div>
+                    <div class="feat-card"><h4>① GPU+LPU 重构推理</h4><p>NVIDIA 不再只靠 GPU 做推理。$200 亿验证推理经济学，混合架构可能成为行业标准。</p></div>
+                    <div class="feat-card"><h4>② Agent 闭环锁定企业</h4><p>NemoClaw + OpenShell + Nemotron = 从评估到生产全流程锁定。软件 moat 最关键一层。</p></div>
+                    <div class="feat-card"><h4>③ 两年一代压制竞争</h4><p>Feynman 2028 确保客户无"够用"窗口。AMD/Google/AWS 面临持续追赶压力。</p></div>
+                    <div class="feat-card"><h4>④ 芯片 → AI 工厂总包</h4><p>Vera Rubin POD + DSX + 数字孪生 = 不卖芯片卖建厂方法论。</p></div>
+                </div>
+            </div>
+        </div>
+        <span class="footnote">Source: NVIDIA GTC 2026 Keynote, Reuters, NVIDIA Q4 FY26 Earnings</span>
+    </section>
+
+    <script>
+        class SlidePresentation{constructor(){this.slides=document.querySelectorAll('.slide');this.currentSlide=0;this.isScrolling=false;this.touchStartY=0;this.setupIntersectionObserver();this.setupKeyboardNav();this.setupTouchNav();this.setupWheelNav();this.setupProgressBar();this.setupNavDots()}setupIntersectionObserver(){const o=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');const i=parseInt(e.target.dataset.slide);if(!isNaN(i)){this.currentSlide=i;this.updateNavDots();this.updateProgressBar()}}})},{threshold:.35});this.slides.forEach(s=>o.observe(s))}goToSlide(i){if(i<0||i>=this.slides.length)return;this.slides[i].scrollIntoView({behavior:'smooth'});this.currentSlide=i;this.updateNavDots();this.updateProgressBar()}setupKeyboardNav(){document.addEventListener('keydown',e=>{if(e.target.getAttribute&&e.target.getAttribute('contenteditable')==='true')return;switch(e.key){case'ArrowDown':case'ArrowRight':case' ':case'PageDown':e.preventDefault();this.goToSlide(this.currentSlide+1);break;case'ArrowUp':case'ArrowLeft':case'PageUp':e.preventDefault();this.goToSlide(this.currentSlide-1);break;case'Home':e.preventDefault();this.goToSlide(0);break;case'End':e.preventDefault();this.goToSlide(this.slides.length-1);break}})}setupTouchNav(){document.addEventListener('touchstart',e=>{this.touchStartY=e.touches[0].clientY},{passive:true});document.addEventListener('touchend',e=>{const d=this.touchStartY-e.changedTouches[0].clientY;if(Math.abs(d)>50)this.goToSlide(this.currentSlide+(d>0?1:-1))},{passive:true})}setupWheelNav(){let t;document.addEventListener('wheel',e=>{if(this.isScrolling)return;clearTimeout(t);t=setTimeout(()=>{if(Math.abs(e.deltaY)>30){this.isScrolling=true;this.goToSlide(this.currentSlide+(e.deltaY>0?1:-1));setTimeout(()=>{this.isScrolling=false},800)}},50)},{passive:true})}setupProgressBar(){this.progressBar=document.getElementById('progressBar');this.updateProgressBar()}updateProgressBar(){if(!this.progressBar)return;this.progressBar.style.width=((this.currentSlide+1)/this.slides.length*100)+'%'}setupNavDots(){const c=document.getElementById('navDots');if(!c)return;this.slides.forEach((_,i)=>{const d=document.createElement('button');d.className='nav-dot'+(i===0?' active':'');d.setAttribute('aria-label',`Slide ${i+1}`);d.addEventListener('click',()=>this.goToSlide(i));c.appendChild(d)});this.navDotEls=c.querySelectorAll('.nav-dot')}updateNavDots(){if(!this.navDotEls)return;this.navDotEls.forEach((d,i)=>d.classList.toggle('active',i===this.currentSlide))}}
+        class InlineEditor{constructor(){this.isActive=false;this.storageKey='gtc2026-newlaunch-short';this.sel='h1,h2,h3,h4,p,.metric-val,.metric-label,td,.body-text,.label';this.load()}toggleEditMode(){this.isActive=!this.isActive;document.body.classList.toggle('editing-active',this.isActive);const t=document.getElementById('editToggle');t.classList.toggle('active',this.isActive);t.textContent=this.isActive?'💾 保存':'✏️ 编辑';document.querySelectorAll(this.sel).forEach(el=>{if(el.closest('.nav-dots')||el.closest('.edit-toggle'))return;el.contentEditable=this.isActive?'true':'false'});if(!this.isActive)this.save()}save(){const e={};document.querySelectorAll('[data-slide]').forEach(s=>{e[s.dataset.slide]=s.innerHTML});localStorage.setItem(this.storageKey,JSON.stringify(e))}load(){try{const e=JSON.parse(localStorage.getItem(this.storageKey));if(!e)return;document.querySelectorAll('[data-slide]').forEach(s=>{if(e[s.dataset.slide])s.innerHTML=e[s.dataset.slide]})}catch(e){}}}
+        const presentation=new SlidePresentation();const editor=new InlineEditor();
+        const hz=document.getElementById('editHotzone'),et=document.getElementById('editToggle');let ht=null;
+        hz.addEventListener('mouseenter',()=>{clearTimeout(ht);et.classList.add('show')});hz.addEventListener('mouseleave',()=>{ht=setTimeout(()=>{if(!editor.isActive)et.classList.remove('show')},400)});
+        et.addEventListener('mouseenter',()=>{clearTimeout(ht)});et.addEventListener('mouseleave',()=>{ht=setTimeout(()=>{if(!editor.isActive)et.classList.remove('show')},400)});
+        et.addEventListener('click',()=>{editor.toggleEditMode()});hz.addEventListener('click',()=>{editor.toggleEditMode()});
+        document.addEventListener('keydown',e=>{if((e.key==='e'||e.key==='E')&&!e.target.getAttribute('contenteditable'))editor.toggleEditMode()});
+    </script>
+</body>
+</html>

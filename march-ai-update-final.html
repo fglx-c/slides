@@ -1,0 +1,2765 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)file:///Users/bill/Desktop/frontend-slides/march-ai-update-final.html -->
+<html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic Growing from Training &amp; Efficiency — March 2026 Model Update</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,300;9..144,700;9..144,900&display=swap" rel="stylesheet">
+
+<style>
+/* ===========================================
+   THEME VARIABLES
+   Change :root to restyle the entire deck
+   =========================================== */
+:root {
+  --bg: #F2EEE8;
+  --bg-card: rgba(255, 255, 255, 0.65);
+  --bg-card-solid: #FAF8F4;
+  --bg-accent-strip: rgba(200, 69, 26, 0.06);
+  --border: #DDD5C8;
+  --border-light: #E8E0D5;
+  --text-primary: #1A1714;
+  --text-secondary: #5A5248;
+  --text-muted: #9A8E84;
+  --text-faint: #C4BAB0;
+  --accent: #C8451A;
+  --accent-dim: rgba(200, 69, 26, 0.1);
+  --accent-dimmer: rgba(200, 69, 26, 0.05);
+  --accent-2: #2B6CB0;    /* blue for secondary model highlights */
+  --accent-2-dim: rgba(43, 108, 176, 0.08);
+  --font-display: 'Fraunces', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  /* Responsive type scale — all use clamp() */
+  --title-size: clamp(2rem, 6.5vw, 6rem);
+  --h2-size: clamp(1.3rem, 3.2vw, 2.6rem);
+  --h3-size: clamp(1rem, 2.2vw, 1.7rem);
+  --body-size: clamp(0.82rem, 1.32vw, 1.05rem);
+  --small-size: clamp(0.72rem, 1.1vw, 0.88rem);
+  --micro-size: clamp(0.6rem, 0.92vw, 0.76rem);
+  /* Spacing */
+  --slide-padding: clamp(1.8rem, 5vw, 5rem);
+  --content-gap: clamp(0.8rem, 2vw, 2rem);
+  --element-gap: clamp(0.3rem, 0.8vw, 0.8rem);
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: 0.7s;
+}
+
+/* ===========================================
+   RESET
+   =========================================== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===========================================
+   VIEWPORT BASE CSS (MANDATORY)
+   Copied verbatim from viewport-base.css
+   =========================================== */
+html, body { height: 100%; overflow-x: hidden; }
+
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.slide {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.slide-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-height: 100%;
+  overflow: hidden;
+  padding: var(--slide-padding);
+}
+
+.card, .container, .content-box {
+  max-width: min(90vw, 1000px);
+  max-height: min(80vh, 700px);
+}
+
+.feature-list, .bullet-list {
+  gap: clamp(0.4rem, 1vh, 1rem);
+}
+
+.feature-list li, .bullet-list li {
+  font-size: var(--body-size);
+  line-height: 1.4;
+}
+
+img, .image-container {
+  max-width: 100%;
+  max-height: min(50vh, 400px);
+  object-fit: contain;
+}
+
+/* Responsive breakpoints */
+@media (max-height: 700px) {
+  :root {
+    --slide-padding: clamp(0.75rem, 3vw, 2rem);
+    --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+    --title-size: clamp(1.4rem, 4.5vw, 2.8rem);
+    --h2-size: clamp(1rem, 3vw, 1.9rem);
+  }
+  #slide-1 .s1-subtitle { font-size: clamp(0.85rem, 1.8vw, 1.2rem); }
+  #slide-1 .s1-accent-bar { height: clamp(1.6rem, 4vh, 2.4rem); }
+}
+@media (max-height: 600px) {
+  :root {
+    --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+    --content-gap: clamp(0.3rem, 1vw, 0.75rem);
+    --title-size: clamp(1.1rem, 4vw, 2rem);
+    --body-size: clamp(0.74rem, 1.25vw, 0.92rem);
+  }
+  .nav-dots, .keyboard-hint, .decorative { display: none; }
+}
+@media (max-height: 500px) {
+  :root {
+    --slide-padding: clamp(0.4rem, 2vw, 1rem);
+    --title-size: clamp(1rem, 3.5vw, 1.5rem);
+    --h2-size: clamp(0.9rem, 2.5vw, 1.25rem);
+    --body-size: clamp(0.65rem, 1vw, 0.85rem);
+  }
+}
+@media (max-width: 600px) {
+  :root { --title-size: clamp(1.5rem, 8vw, 2.8rem); }
+  .two-col, .agent-grid { grid-template-columns: 1fr !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.2s !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* ===========================================
+   REVEAL ANIMATIONS
+   Triggered by .visible class via IntersectionObserver
+   =========================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity var(--dur) var(--ease-out-expo),
+              transform var(--dur) var(--ease-out-expo);
+}
+.slide.visible .reveal { opacity: 1; transform: translateY(0); }
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.94);
+  transition: opacity var(--dur) var(--ease-out-expo),
+              transform var(--dur) var(--ease-out-expo);
+}
+.slide.visible .reveal-scale { opacity: 1; transform: scale(1); }
+
+/* Stagger delays */
+.d1 { transition-delay: 0.05s; }
+.d2 { transition-delay: 0.15s; }
+.d3 { transition-delay: 0.25s; }
+.d4 { transition-delay: 0.35s; }
+.d5 { transition-delay: 0.45s; }
+.d6 { transition-delay: 0.55s; }
+
+/* ===========================================
+   GLOBAL CHROME
+   Progress bar, nav dots, keyboard hint
+   =========================================== */
+.progress-bar {
+  position: fixed; top: 0; left: 0;
+  height: 3px;
+  background: var(--accent);
+  width: 0%;
+  transition: width 0.4s ease;
+  z-index: 1000;
+}
+
+.nav-dots {
+  position: fixed;
+  right: clamp(0.75rem, 2vw, 1.4rem);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 1000;
+}
+.nav-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--border);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.nav-dot.active {
+  background: var(--accent);
+  transform: scale(1.6);
+}
+
+.keyboard-hint {
+  position: fixed;
+  bottom: clamp(0.75rem, 2vh, 1.2rem);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: clamp(0.5rem, 0.75vw, 0.65rem);
+  color: var(--text-faint);
+  letter-spacing: 0.1em;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* ===========================================
+   INLINE EDIT CONTROLS
+   =========================================== */
+.edit-hotzone {
+  position: fixed; top: 0; left: 0;
+  width: 80px; height: 80px;
+  z-index: 10000;
+  cursor: pointer;
+}
+.edit-toggle {
+  position: fixed; top: 14px; left: 14px;
+  z-index: 10001;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.35em 0.9em;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.edit-toggle.show, .edit-toggle.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.edit-toggle.active { background: #1A1714; }
+
+/* Edit mode: make text editable */
+body.edit-mode [contenteditable] {
+  outline: 2px dashed rgba(200,69,26,0.35);
+  border-radius: 3px;
+  cursor: text;
+  min-width: 1em;
+}
+body.edit-mode [contenteditable]:focus {
+  outline: 2px solid var(--accent);
+  background: rgba(200,69,26,0.04);
+}
+
+/* ===========================================
+   REUSABLE LAYOUT COMPONENTS
+   =========================================== */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+  align-items: start;
+}
+
+/* Top bar that appears on every content slide */
+.slide-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(1rem, 3vw, 2.5rem) var(--slide-padding) 0;
+  flex-shrink: 0;
+}
+.slide-topbar-label {
+  font-family: var(--font-mono);
+  font-size: var(--micro-size);
+  color: var(--text-faint);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.slide-topbar-num {
+  font-family: var(--font-mono);
+  font-size: var(--micro-size);
+  color: var(--text-faint);
+}
+
+/* Red accent stripe (top of left edge) */
+.accent-stripe {
+  position: absolute;
+  top: 0;
+  left: var(--slide-padding);
+  width: clamp(30px, 4vw, 44px);
+  height: 3px;
+  background: var(--accent);
+}
+
+/* Section badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.28em 0.8em;
+  border-radius: 3px;
+  font-family: var(--font-body);
+  font-size: var(--micro-size);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.badge-red {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid rgba(200,69,26,0.2);
+}
+.badge-blue {
+  background: var(--accent-2-dim);
+  color: var(--accent-2);
+  border: 1px solid rgba(43,108,176,0.2);
+}
+.badge-neutral {
+  background: rgba(90,82,72,0.07);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+/* Eyebrow line */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--micro-size);
+  color: var(--accent);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Horizontal rule divider */
+.rule {
+  border: none;
+  height: 1px;
+  background: var(--border);
+}
+.rule-accent {
+  border: none;
+  height: 2px;
+  width: clamp(28px, 4vw, 40px);
+  background: var(--accent);
+}
+
+/* Slide title (h2) */
+.slide-title {
+  font-family: var(--font-display);
+  font-size: var(--h2-size);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin-bottom: clamp(1.2rem, 2.5vw, 2.2rem);
+}
+
+/* Card */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: clamp(0.7rem, 1.5vw, 1.3rem);
+  max-height: none;
+  max-width: none;
+}
+
+/* Bullet list */
+.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.4rem, 0.9vw, 0.8rem);
+}
+.bullet-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8em;
+  font-size: var(--body-size);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.bullet-list li::before {
+  content: '—';
+  color: var(--accent);
+  flex-shrink: 0;
+  font-weight: 600;
+  margin-top: 0.05em;
+}
+
+/* Stat callout */
+.stat-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+.stat-num {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 3.5rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.stat-num.accent { color: var(--accent); }
+.stat-num.mimo   { color: #FF6900; }
+.stat-label {
+  font-size: var(--small-size);
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Model name inline in slide title — per-brand colors */
+.model-name { font-weight: 700; }
+.model-grok    { color: #111111; }   /* xAI: stark black */
+.model-minimax { color: #D94F4F; }   /* MiniMax: brand red */
+.model-miro    { color: #2D7D5A; }   /* MiroMind: sage green */
+.model-openai  { color: #10A37F; }   /* OpenAI: ChatGPT teal */
+.model-mimo    { color: #FF6900; }   /* Xiaomi MiMo: brand orange */
+
+/* Capability chips for model feature highlights */
+.cap-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: clamp(0.6rem, 1.2vw, 1rem) 0; }
+.cap-chip {
+  display: inline-flex; align-items: center;
+  padding: 0.3em 0.75em;
+  background: rgba(16,163,127,0.07);
+  border: 1px solid rgba(16,163,127,0.2);
+  border-radius: 4px;
+  font-size: var(--small-size);
+  color: #10A37F;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+/* Stacked images layout */
+.img-stack { display: flex; flex-direction: column; gap: clamp(0.4rem, 0.8vw, 0.8rem); width: 100%; }
+.img-stack img { width: 100%; object-fit: contain; border-radius: 8px; border: 1px solid var(--border); }
+
+/* ─── Comparison board (slides 15, 17, 18) ─── */
+.comp-board {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg-card-solid);
+}
+.comp-header {
+  display: grid;
+  grid-template-columns: 1.4fr 0.75fr 0.9fr 0.75fr 0.75fr;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.comp-header > div {
+  padding: 0.55em 0.6em;
+  font-family: var(--font-mono);
+  font-size: var(--micro-size);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  text-align: center;
+  white-space: nowrap;
+}
+.comp-header > div:first-child { text-align: left; }
+.comp-header .cm { color: #10A37F; }
+.comp-row {
+  display: grid;
+  grid-template-columns: 1.4fr 0.75fr 0.9fr 0.75fr 0.75fr;
+  border-bottom: 1px solid var(--border-light);
+}
+.comp-row:last-child { border-bottom: none; }
+.comp-row > div {
+  padding: 0.6em 0.6em;
+  font-family: var(--font-mono);
+  font-size: var(--small-size);
+  color: var(--text-secondary);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.comp-row > div:first-child {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--small-size);
+  color: var(--text-primary);
+  text-align: left;
+  justify-content: flex-start;
+}
+.comp-row > div.cm {
+  background: rgba(16,163,127,0.06);
+  color: #10A37F;
+  font-weight: 700;
+}
+.comp-note { font-size: var(--micro-size); color: var(--text-muted); margin-top: 0.5rem; }
+
+/* ─── Hunter Alpha timeline ─── */
+.ha-timeline {
+  display: flex; gap: clamp(0.5rem, 1.2vw, 1.2rem);
+  margin-top: clamp(0.5rem, 1.2vw, 1.2rem);
+}
+.ha-step {
+  flex: 1; position: relative;
+  padding: clamp(0.5rem, 1vw, 0.9rem);
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  display: flex; flex-direction: column; gap: 0.3em;
+}
+.ha-step-num {
+  font-family: var(--font-mono);
+  font-size: var(--micro-size);
+  color: #FF6900; font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.ha-step-title {
+  font-size: var(--small-size);
+  font-weight: 700; color: var(--text-primary);
+  line-height: 1.3;
+}
+.ha-step-desc {
+  font-size: var(--micro-size);
+  color: var(--text-secondary); line-height: 1.45;
+}
+.ha-step.ha-reveal {
+  background: rgba(255,105,0,0.06);
+  border-color: rgba(255,105,0,0.25);
+}
+.ha-step.ha-reveal .ha-step-title { color: #FF6900; }
+.ha-arrow {
+  display: flex; align-items: center; flex: 0 0 auto;
+  font-size: clamp(1rem, 2vw, 1.6rem);
+  color: var(--text-faint);
+}
+.ha-bottom {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: clamp(0.6rem, 1.5vw, 1.5rem);
+  align-items: start;
+  margin-top: clamp(0.5rem, 1.2vw, 1.2rem);
+}
+.ha-stat-card {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center;
+  padding: clamp(0.6rem, 1.2vw, 1.1rem);
+  background: rgba(255,105,0,0.05);
+  border: 1px solid rgba(255,105,0,0.18);
+  border-radius: 10px;
+}
+.ha-divider {
+  width: 1px; background: var(--border);
+  align-self: stretch;
+}
+
+/* ─── Apple-style callout text ─── */
+.apple-callout {
+  font-size: clamp(0.95rem, 1.75vw, 1.35rem);
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  letter-spacing: -0.015em;
+  max-width: 58ch;
+}
+
+
+/* ─── Slide takeaway ─── */
+.slide-takeaway {
+  font-size: clamp(1.05rem, 1.9vw, 1.4rem);
+  font-weight: 400;
+  color: var(--text-primary);
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+}
+
+/* Insight box */
+.insight-box {
+  background: var(--accent-dimmer);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  padding: clamp(0.7rem, 1.5vw, 1.2rem) clamp(0.9rem, 2vw, 1.5rem);
+}
+.insight-eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--micro-size);
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.4em;
+}
+.insight-text {
+  font-family: var(--font-display);
+  font-size: clamp(0.85rem, 1.5vw, 1.15rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+/* Benchmark bar row */
+.bench-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 1vw, 1rem);
+}
+.bench-name {
+  font-family: var(--font-mono);
+  font-size: var(--micro-size);
+  color: var(--text-muted);
+  min-width: clamp(90px, 13vw, 130px);
+  flex-shrink: 0;
+}
+.bench-track {
+  flex: 1;
+  height: 5px;
+  background: var(--border-light);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.bench-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--accent);
+  transition: width 1.1s var(--ease-out-expo) 0.4s;
+  width: 0;
+}
+.slide.visible .bench-fill { width: var(--bw); }
+.bench-score {
+  font-family: var(--font-display);
+  font-size: var(--small-size);
+  font-weight: 700;
+  color: var(--text-primary);
+  min-width: clamp(32px, 4.5vw, 48px);
+  text-align: right;
+}
+
+/* Slide image */
+.slide-img {
+  max-width: 100%;
+  max-height: min(44vh, 370px);
+  object-fit: contain;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+/* ===========================================
+   SLIDE 1: TITLE — Clean Left
+   =========================================== */
+#slide-1 {
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  padding: clamp(2.5rem, 6vw, 5rem) var(--slide-padding);
+}
+
+/* Top label */
+.s1-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.s1-label {
+  font-family: var(--font-mono);
+  font-size: var(--micro-size);
+  color: var(--text-faint);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Centre content */
+.s1-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(1.4rem, 3.5vw, 3rem);
+}
+
+/* Title */
+.s1-title {
+  font-family: var(--font-body);
+  font-size: var(--title-size);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+/* Subtitle row: vertical accent bar + Chinese text */
+.s1-sub-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 2rem);
+}
+.s1-accent-bar {
+  width: clamp(3px, 0.4vw, 5px);
+  height: clamp(2.2rem, 5vh, 3.2rem);
+  border-radius: 999px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+.s1-subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2.4vw, 1.7rem);
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+}
+
+/* Footer */
+.s1-footer {
+  font-family: var(--font-mono);
+  font-size: var(--micro-size);
+  color: var(--text-faint);
+  letter-spacing: 0.1em;
+}
+
+/* ===========================================
+   OUTLINE SLIDE
+   =========================================== */
+.outline-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.6rem, 1.8vw, 1.6rem);
+  margin-top: clamp(1.2rem, 3vw, 2.2rem);
+}
+.outline-item {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.2rem, 2.5vw, 2.2rem);
+  padding: clamp(0.7rem, 1.4vw, 1.2rem) clamp(1rem, 2vw, 2rem);
+  border-left: clamp(3px, 0.35vw, 5px) solid var(--border);
+  transition: border-color 0.3s ease;
+}
+.outline-item:hover { border-left-color: var(--accent); }
+.outline-num {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: var(--accent);
+  min-width: clamp(2rem, 4vw, 3rem);
+}
+.outline-text {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+}
+
+/* Kimi model accent color */
+.model-kimi { color: #6366F1; }
+.kimi-highlight {
+  display: inline-block;
+  padding: 0.1em 0.5em;
+  background: rgba(99,102,241,0.08);
+  border-radius: 4px;
+}
+.kimi-quote-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.6rem, 1.2vw, 1.2rem);
+  margin-top: clamp(0.6rem, 1.5vw, 1.2rem);
+}
+.kimi-quote-card {
+  padding: clamp(0.6rem, 1.2vw, 1.2rem);
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+}
+.kimi-quote-card .kq-name {
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.35em;
+}
+.kimi-quote-card .kq-text {
+  font-size: var(--body-size);
+  color: var(--text-secondary);
+  line-height: 1.55;
+  font-weight: 400;
+}
+.kimi-duality {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.8rem, 1.5vw, 1.5rem);
+  margin: clamp(0.6rem, 1.5vw, 1.2rem) 0;
+  flex-wrap: wrap;
+}
+.kimi-duality-box {
+  padding: clamp(0.5rem, 1vw, 1rem) clamp(0.8rem, 1.5vw, 1.5rem);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-card);
+  text-align: center;
+  min-width: clamp(6rem, 14vw, 12rem);
+}
+.kimi-duality-box .kd-label {
+  font-family: var(--font-mono);
+  font-size: var(--micro-size);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.3em;
+}
+.kimi-duality-box .kd-value {
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.kimi-arrow {
+  font-size: clamp(1rem, 2vw, 1.6rem);
+  color: var(--accent);
+}
+
+/* Architecture comparison diagram */
+.arch-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(0.8rem, 2vw, 2.5rem);
+  margin-top: clamp(0.4rem, 1vw, 0.8rem);
+}
+.arch-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.3rem, 0.6vw, 0.5rem);
+  flex: 0 1 auto;
+}
+.arch-col-title {
+  font-family: var(--font-mono);
+  font-size: var(--small-size);
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+.arch-svg {
+  width: clamp(7.5rem, 15vw, 12rem);
+  height: auto;
+}
+.arch-col-desc {
+  font-family: var(--font-body);
+  font-size: var(--small-size);
+  color: var(--text-secondary);
+  text-align: center;
+  font-weight: 500;
+}
+.arch-evolve {
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  color: var(--accent);
+  align-self: center;
+  margin-top: clamp(3rem, 8vw, 6rem);
+}
+
+/* ===========================================
+   SLIDE 2: TIMELINE
+   =========================================== */
+.timeline-wrap {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  position: relative;
+  margin-top: clamp(0.5rem, 1.5vw, 1.5rem);
+}
+.timeline-wrap::before {
+  content: '';
+  position: absolute;
+  top: 24px;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border) 8%, var(--border) 92%, transparent);
+}
+.tl-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.4rem, 0.8vw, 0.7rem);
+  padding: 0 clamp(0.3rem, 0.6vw, 0.6rem);
+}
+.tl-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--border);
+  border: 2px solid var(--bg);
+  margin-top: 20px;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.tl-item.hl .tl-dot {
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+  width: 11px; height: 11px;
+  margin-top: 19px;
+}
+.tl-date {
+  font-family: var(--font-mono);
+  font-size: var(--micro-size);
+  color: var(--text-faint);
+  margin-top: clamp(0.3rem, 0.6vw, 0.6rem);
+  letter-spacing: 0.05em;
+}
+.tl-item.hl .tl-date { color: var(--accent); }
+.tl-card {
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: clamp(0.45rem, 1vw, 0.8rem) clamp(0.5rem, 1.2vw, 0.9rem);
+  text-align: center;
+  width: 100%;
+}
+.tl-item.hl .tl-card {
+  border-color: rgba(200,69,26,0.25);
+  background: rgba(200,69,26,0.04);
+}
+.tl-model {
+  font-family: var(--font-display);
+  font-size: clamp(0.65rem, 1.1vw, 0.9rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+.tl-sub {
+  font-size: clamp(0.55rem, 0.85vw, 0.7rem);
+  color: var(--text-muted);
+  margin-top: 0.15em;
+  line-height: 1.3;
+}
+.tl-focus {
+  margin-top: clamp(0.6rem, 1.2vw, 1.2rem);
+  font-size: var(--small-size);
+  color: var(--text-muted);
+  text-align: center;
+}
+.tl-focus strong { color: var(--accent); }
+
+/* ===========================================
+   SLIDE 3: SECTION OPENER
+   =========================================== */
+#slide-3 {
+  background: var(--bg);
+  overflow: hidden;
+}
+#slide-3::after {
+  content: '01';
+  position: absolute;
+  right: clamp(1rem, 5vw, 5rem);
+  bottom: clamp(1rem, 5vh, 4rem);
+  font-family: var(--font-display);
+  font-size: clamp(6rem, 20vw, 18rem);
+  font-weight: 900;
+  color: rgba(200,69,26,0.05);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.opener-inner {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.2rem, 2.5vw, 2.5rem);
+}
+.opener-h {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4.5vw, 4rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+.opener-h em { font-style: italic; color: var(--accent); }
+.opener-p {
+  font-size: var(--body-size);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 52ch;
+  font-weight: 300;
+}
+
+/* ===========================================
+   AGENT CARDS — Slide 4
+   =========================================== */
+.agent-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.4rem, 0.9vw, 0.9rem);
+}
+.agent-card {
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: clamp(0.7rem, 1.4vw, 1.2rem);
+}
+.agent-role {
+  font-family: var(--font-body);
+  font-size: var(--micro-size);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.3em;
+}
+.role-coordinator { color: var(--accent); }
+.role-research    { color: #2B9AC8; }
+.role-logic       { color: #7B6CF0; }
+.role-creative    { color: #C8861A; }
+.agent-name {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.8vw, 1.4rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.3em;
+}
+.agent-desc {
+  font-size: var(--small-size);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+/* ===========================================
+   SCORE TABLE — Slide 5
+   =========================================== */
+.score-table { display: flex; flex-direction: column; gap: clamp(0.3rem, 0.6vw, 0.6rem); }
+.score-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(0.35rem, 0.7vw, 0.6rem) clamp(0.6rem, 1.2vw, 1rem);
+  border-radius: 5px;
+  border: 1px solid var(--border-light);
+  background: var(--bg-card-solid);
+}
+.score-row.winner {
+  border-color: rgba(200,69,26,0.3);
+  background: rgba(200,69,26,0.04);
+}
+.score-model { font-size: var(--small-size); color: var(--text-secondary); font-weight: 500; }
+.score-row.winner .score-model { color: var(--text-primary); font-weight: 600; }
+.score-val { font-family: var(--font-display); font-size: var(--body-size); font-weight: 700; color: var(--text-muted); }
+.score-row.winner .score-val { color: var(--accent); }
+.score-rank {
+  font-family: var(--font-mono);
+  font-size: var(--micro-size);
+  color: var(--text-faint);
+  min-width: 1.5rem;
+}
+.score-row.winner .score-rank { color: var(--accent); font-weight: 600; }
+
+/* ===========================================
+   MINIMAX FEATURE CARDS — Slide 7
+   =========================================== */
+.mm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.4rem, 0.9vw, 0.9rem);
+}
+.mm-card {
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: clamp(0.65rem, 1.3vw, 1.1rem);
+}
+.mm-card-hl {
+  border-color: rgba(200,69,26,0.2);
+  background: rgba(200,69,26,0.025);
+}
+.mm-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-2);
+  display: inline-block;
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
+.mm-card-hl .mm-dot { background: var(--accent); }
+.mm-title {
+  font-family: var(--font-display);
+  font-size: clamp(0.78rem, 1.3vw, 1rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.35em;
+  line-height: 1.3;
+}
+.mm-body {
+  font-size: var(--small-size);
+  color: var(--text-secondary);
+  line-height: 1.55;
+  font-weight: 300;
+}
+</style>
+</head>
+<body class="">
+
+<div class="progress-bar" id="progressBar" style="width: 80%;"></div>
+<nav class="nav-dots" id="navDots" aria-label="Slide navigation"><button class="nav-dot" aria-label="Go to slide 1"></button><button class="nav-dot" aria-label="Go to slide 2"></button><button class="nav-dot" aria-label="Go to slide 3"></button><button class="nav-dot" aria-label="Go to slide 4"></button><button class="nav-dot" aria-label="Go to slide 5"></button><button class="nav-dot" aria-label="Go to slide 6"></button><button class="nav-dot" aria-label="Go to slide 7"></button><button class="nav-dot" aria-label="Go to slide 8"></button><button class="nav-dot" aria-label="Go to slide 9"></button><button class="nav-dot" aria-label="Go to slide 10"></button><button class="nav-dot" aria-label="Go to slide 11"></button><button class="nav-dot" aria-label="Go to slide 12"></button><button class="nav-dot" aria-label="Go to slide 13"></button><button class="nav-dot" aria-label="Go to slide 14"></button><button class="nav-dot" aria-label="Go to slide 15"></button><button class="nav-dot" aria-label="Go to slide 16"></button><button class="nav-dot" aria-label="Go to slide 17"></button><button class="nav-dot" aria-label="Go to slide 18"></button><button class="nav-dot" aria-label="Go to slide 19"></button><button class="nav-dot active" aria-label="Go to slide 20"></button><button class="nav-dot" aria-label="Go to slide 21"></button><button class="nav-dot" aria-label="Go to slide 22"></button><button class="nav-dot" aria-label="Go to slide 23"></button><button class="nav-dot" aria-label="Go to slide 24"></button><button class="nav-dot" aria-label="Go to slide 25"></button><button class="nav-dot" aria-label="Go to slide 1"></button><button class="nav-dot" aria-label="Go to slide 2"></button><button class="nav-dot" aria-label="Go to slide 3"></button><button class="nav-dot" aria-label="Go to slide 4"></button><button class="nav-dot" aria-label="Go to slide 5"></button><button class="nav-dot" aria-label="Go to slide 6"></button><button class="nav-dot" aria-label="Go to slide 7"></button><button class="nav-dot" aria-label="Go to slide 8"></button><button class="nav-dot" aria-label="Go to slide 9"></button><button class="nav-dot" aria-label="Go to slide 10"></button><button class="nav-dot" aria-label="Go to slide 11"></button><button class="nav-dot" aria-label="Go to slide 12"></button><button class="nav-dot" aria-label="Go to slide 13"></button><button class="nav-dot" aria-label="Go to slide 14"></button><button class="nav-dot" aria-label="Go to slide 15"></button><button class="nav-dot" aria-label="Go to slide 16"></button><button class="nav-dot" aria-label="Go to slide 17"></button><button class="nav-dot" aria-label="Go to slide 18"></button><button class="nav-dot" aria-label="Go to slide 19"></button><button class="nav-dot" aria-label="Go to slide 20"></button><button class="nav-dot" aria-label="Go to slide 21"></button><button class="nav-dot" aria-label="Go to slide 22"></button><button class="nav-dot" aria-label="Go to slide 23"></button><button class="nav-dot" aria-label="Go to slide 24"></button><button class="nav-dot" aria-label="Go to slide 25"></button><button class="nav-dot" aria-label="Go to slide 1"></button><button class="nav-dot" aria-label="Go to slide 2"></button><button class="nav-dot" aria-label="Go to slide 3"></button><button class="nav-dot" aria-label="Go to slide 4"></button><button class="nav-dot" aria-label="Go to slide 5"></button><button class="nav-dot" aria-label="Go to slide 6"></button><button class="nav-dot" aria-label="Go to slide 7"></button><button class="nav-dot" aria-label="Go to slide 8"></button><button class="nav-dot" aria-label="Go to slide 9"></button><button class="nav-dot" aria-label="Go to slide 10"></button><button class="nav-dot" aria-label="Go to slide 11"></button><button class="nav-dot" aria-label="Go to slide 12"></button><button class="nav-dot" aria-label="Go to slide 13"></button><button class="nav-dot" aria-label="Go to slide 14"></button><button class="nav-dot" aria-label="Go to slide 15"></button><button class="nav-dot" aria-label="Go to slide 16"></button><button class="nav-dot" aria-label="Go to slide 17"></button><button class="nav-dot" aria-label="Go to slide 18"></button><button class="nav-dot" aria-label="Go to slide 19"></button><button class="nav-dot" aria-label="Go to slide 20"></button><button class="nav-dot" aria-label="Go to slide 21"></button><button class="nav-dot" aria-label="Go to slide 22"></button><button class="nav-dot" aria-label="Go to slide 23"></button><button class="nav-dot" aria-label="Go to slide 24"></button><button class="nav-dot" aria-label="Go to slide 25"></button></nav>
+<div class="keyboard-hint">↑ ↓ arrow keys · space to advance</div>
+
+<!-- Inline edit controls -->
+<div class="edit-hotzone" id="editHotzone" title="Enter edit mode"></div>
+<button class="edit-toggle" id="editToggle" title="Edit mode (E)">✏ Edit</button>
+
+<!-- ============================================
+     SLIDE 1 — TITLE
+     ============================================ -->
+<section class="slide visible" id="slide-1" aria-label="Title slide">
+  <div class="s1-topbar">
+    <span class="s1-label reveal d1">March 2026 · Model Update</span>
+  </div>
+
+  <div class="s1-body">
+    <h1 class="s1-title reveal d2">Agentic Training<br>&amp; Efficiency</h1>
+    <div class="s1-sub-row reveal d3">
+      <div class="s1-accent-bar"></div>
+      <p class="s1-subtitle" contenteditable="true">三月模型技术特点及发展趋势</p>
+    </div>
+  </div>
+
+  <div class="s1-footer reveal d4">Mason Chai</div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 2 — OUTLINE
+     ============================================ -->
+<section class="slide visible" id="slide-outline" aria-label="Outline">
+  <div class="accent-stripe"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">Agenda</span>
+    <span class="slide-topbar-num">02 / 27</span>
+  </div>
+  <div class="slide-content">
+    <h2 class="slide-title reveal d1">本次分享内容</h2>
+    <div class="outline-list">
+      <div class="outline-item reveal d2">
+        <span class="outline-num">01</span>
+        <span class="outline-text">Kimi Attention Residuals</span>
+      </div>
+      <div class="outline-item reveal d3">
+        <span class="outline-num">02</span>
+        <span class="outline-text">Agentic Training</span>
+      </div>
+      <div class="outline-item reveal d4">
+        <span class="outline-num">03</span>
+        <span class="outline-text">Efficiency</span>
+      </div>
+      <div class="outline-item reveal d5">
+        <span class="outline-num">04</span>
+        <span class="outline-text">GTC 热点产品分享</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 3 — TIMELINE OVERVIEW
+     ============================================ -->
+<section class="slide visible" id="slide-2" aria-label="Timeline overview">
+  <div class="accent-stripe"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">Overview</span>
+    <span class="slide-topbar-num">03 / 27</span>
+  </div>
+
+  <div class="slide-content" style="padding-top: clamp(0.5rem, 1.5vw, 1.5rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);">2026 年 3 月，密集的一周</h2>
+
+    <div class="timeline-wrap reveal d3">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">03-10</div>
+        <div class="tl-card">
+          <div class="tl-model">Grok 4.20</div>
+          <div class="tl-sub">Multi-agent Beta</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">03-11</div>
+        <div class="tl-card">
+          <div class="tl-model">Nemotron 3 Super</div>
+          <div class="tl-sub">技术报告</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">03-11</div>
+        <div class="tl-card">
+          <div class="tl-model">MiroThinker 1.7</div>
+          <div class="tl-sub">Verification-centric</div>
+        </div>
+      </div>
+      <div class="tl-item hl">
+        <div class="tl-dot" style="background: #6366F1; box-shadow: 0 0 0 3px rgba(99,102,241,0.15);"></div>
+        <div class="tl-date" style="color: #6366F1;">03-16</div>
+        <div class="tl-card" style="border-color: rgba(99,102,241,0.25); background: rgba(99,102,241,0.04);">
+          <div class="tl-model">Kimi AttnRes</div>
+          <div class="tl-sub">Attention Residuals</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">03-16</div>
+        <div class="tl-card">
+          <div class="tl-model">Mistral Small 4</div>
+          <div class="tl-sub">高效推理模型</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">03-17</div>
+        <div class="tl-card">
+          <div class="tl-model">GPT-5.4 mini/nano</div>
+          <div class="tl-sub">小尺寸新品</div>
+        </div>
+      </div>
+      <div class="tl-item hl">
+        <div class="tl-dot"></div>
+        <div class="tl-date">03-18</div>
+        <div class="tl-card">
+          <div class="tl-model">MiniMax M2.7</div>
+          <div class="tl-sub">模型自我进化</div>
+        </div>
+      </div>
+      <div class="tl-item hl">
+        <div class="tl-dot" style="background: #FF6900; box-shadow: 0 0 0 3px rgba(255,105,0,0.15);"></div>
+        <div class="tl-date" style="color: #FF6900;">03-18</div>
+        <div class="tl-card" style="border-color: rgba(255,105,0,0.25); background: rgba(255,105,0,0.04);">
+          <div class="tl-model">MiMo-V2-Pro</div>
+          <div class="tl-sub">1T Agent 旗舰</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="tl-focus reveal d4">
+      本周重点：<strong style="color: #6366F1;">Kimi AttnRes</strong> · <strong>Grok 4.20</strong> · <strong>MiniMax M2.7</strong> · <strong>MiroThinker 1.7</strong> · <strong style="color: #FF6900;">MiMo-V2-Pro</strong>
+    </p>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 4 — KIMI SECTION OPENER
+     ============================================ -->
+<section class="slide visible" id="slide-kimi-opener" aria-label="Kimi Attention Residuals section opener">
+  <div class="accent-stripe" style="background: #6366F1;"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">Section 00 · Architecture</span>
+    <span class="slide-topbar-num">04 / 27</span>
+  </div>
+  <div class="slide-content">
+    <div class="opener-inner">
+      <hr class="rule-accent reveal d1" style="margin: 0 0 clamp(0.4rem, 1vw, 0.8rem) 0; background: #6366F1;">
+      <h2 class="opener-h reveal d2" contenteditable="true">
+        Attention Residuals<br>
+        <span style="font-weight: 300;">把注意力机制"旋转90度"</span>
+      </h2>
+      <p class="opener-p reveal d3" contenteditable="true">
+        月之暗面（Kimi）团队提出用注意力机制替代传统固定残差累加，让模型每层可选择性回顾前层信息。训练效率提升 25%，推理延迟增加不到 2%。马斯克、Karpathy 纷纷围观。
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 5 — KIMI: SOCIAL IMPACT & HIGH-LEVEL
+     ============================================ -->
+<section class="slide visible" id="slide-kimi-social" aria-label="Kimi social impact">
+  <div class="accent-stripe" style="background: #6366F1;"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">Kimi AttnRes · Impact</span>
+    <span class="slide-topbar-num">05 / 27</span>
+  </div>
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);" contenteditable="true">17岁高中生一作，马斯克 Karpathy 纷纷围观</h2>
+    <p style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3em;" class="reveal d2" contenteditable="true">
+      陈广宇（Nathan）与 RoPE 作者苏剑林、Kimi Linear 一作张宇并列共同一作
+    </p>
+
+    <div class="kimi-quote-grid reveal d3">
+      <div class="kimi-quote-card">
+        <div class="kq-name">Elon Musk</div>
+        <div class="kq-text">"Impressive"</div>
+      </div>
+      <div class="kimi-quote-card">
+        <div class="kq-name">Andrej Karpathy</div>
+        <div class="kq-text">对 "Attention is All You Need" 的理解还远远不够</div>
+      </div>
+      <div class="kimi-quote-card">
+        <div class="kq-name">Marc Andreessen (a16z)</div>
+        <div class="kq-text">关注了陈广宇的 X 账号</div>
+      </div>
+      <div class="kimi-quote-card">
+        <div class="kq-name">17岁 · 陈广宇</div>
+        <div class="kq-text">从北京黑客松到硅谷实习，再到加入月之暗面，做最底层的架构研究</div>
+      </div>
+    </div>
+
+    <div class="insight-box reveal d4" style="margin-top: clamp(0.6rem, 1.3vw, 1.3rem);">
+      <div class="insight-eyebrow">技术概要</div>
+      <div class="insight-text" contenteditable="true">Drop-in replacement：不修改网络其他部分，直接替换残差连接。训练效率 ↑25%，推理延迟增加 &lt;2%</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 6 — KIMI: TECHNICAL DEEP DIVE 1
+     ============================================ -->
+<section class="slide visible" id="slide-kimi-tech1" aria-label="Kimi technical deep dive: time-depth duality">
+  <div class="accent-stripe" style="background: #6366F1;"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">Kimi AttnRes · Core Insight</span>
+    <span class="slide-topbar-num">06 / 27</span>
+  </div>
+  <div class="slide-content" style="padding-top: clamp(0.3rem, 0.8vw, 0.8rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);" contenteditable="true">核心洞察：时间-深度对偶性</h2>
+
+    <!-- Architecture comparison diagram (replicating paper Figure 1) -->
+    <div class="arch-row reveal d2">
+
+      <!-- (a) Standard Residuals -->
+      <div class="arch-col">
+        <div class="arch-col-title">(a) Standard Residuals</div>
+        <svg class="arch-svg" viewBox="0 0 140 240" fill="none">
+          <!-- Connection lines (equal weight, gray) -->
+          <line x1="70" y1="28" x2="70" y2="40" stroke="#DDD5C8" stroke-width="1.5"></line>
+          <line x1="70" y1="68" x2="70" y2="80" stroke="#DDD5C8" stroke-width="1.5"></line>
+          <line x1="70" y1="108" x2="70" y2="120" stroke="#DDD5C8" stroke-width="1.5"></line>
+          <line x1="70" y1="148" x2="70" y2="160" stroke="#DDD5C8" stroke-width="1.5"></line>
+          <line x1="70" y1="188" x2="70" y2="200" stroke="#DDD5C8" stroke-width="1.5"></line>
+          <!-- +1 labels -->
+          <text x="84" y="37" font-size="9" fill="#9A8E84" font-family="monospace">+1</text>
+          <text x="84" y="77" font-size="9" fill="#9A8E84" font-family="monospace">+1</text>
+          <text x="84" y="117" font-size="9" fill="#9A8E84" font-family="monospace">+1</text>
+          <text x="84" y="157" font-size="9" fill="#9A8E84" font-family="monospace">+1</text>
+          <text x="84" y="197" font-size="9" fill="#9A8E84" font-family="monospace">+1</text>
+          <!-- Layer boxes -->
+          <rect x="15" y="2" width="110" height="26" rx="4" fill="#FAF8F4" stroke="#DDD5C8" stroke-width="1"></rect>
+          <text x="70" y="19" text-anchor="middle" font-size="11" fill="#5A5248" font-family="sans-serif">Embedding</text>
+          <rect x="15" y="42" width="110" height="26" rx="4" fill="#fff" stroke="#DDD5C8" stroke-width="1"></rect>
+          <text x="70" y="59" text-anchor="middle" font-size="11" fill="#1A1714" font-family="sans-serif">Attention</text>
+          <rect x="15" y="82" width="110" height="26" rx="4" fill="#fff" stroke="#DDD5C8" stroke-width="1"></rect>
+          <text x="70" y="99" text-anchor="middle" font-size="11" fill="#1A1714" font-family="sans-serif">MoE</text>
+          <rect x="15" y="122" width="110" height="26" rx="4" fill="#fff" stroke="#DDD5C8" stroke-width="1"></rect>
+          <text x="70" y="139" text-anchor="middle" font-size="11" fill="#1A1714" font-family="sans-serif">Attention</text>
+          <rect x="15" y="162" width="110" height="26" rx="4" fill="#fff" stroke="#DDD5C8" stroke-width="1"></rect>
+          <text x="70" y="179" text-anchor="middle" font-size="11" fill="#1A1714" font-family="sans-serif">MoE</text>
+          <rect x="15" y="202" width="110" height="26" rx="4" fill="#FAF8F4" stroke="#DDD5C8" stroke-width="1"></rect>
+          <text x="70" y="219" text-anchor="middle" font-size="11" fill="#5A5248" font-family="sans-serif">Output</text>
+        </svg>
+        <div class="arch-col-desc">固定等权累加 (+1)</div>
+      </div>
+
+      <div class="arch-evolve">→</div>
+
+      <!-- (b) Full Attention Residuals -->
+      <div class="arch-col">
+        <div class="arch-col-title">(b) Full AttnRes</div>
+        <svg class="arch-svg" viewBox="0 0 140 240" fill="none">
+          <!-- Standard vertical lines (faint) -->
+          <line x1="70" y1="28" x2="70" y2="40" stroke="#E8E0D5" stroke-width="1"></line>
+          <line x1="70" y1="68" x2="70" y2="80" stroke="#E8E0D5" stroke-width="1"></line>
+          <line x1="70" y1="108" x2="70" y2="120" stroke="#E8E0D5" stroke-width="1"></line>
+          <line x1="70" y1="148" x2="70" y2="160" stroke="#E8E0D5" stroke-width="1"></line>
+          <line x1="70" y1="188" x2="70" y2="200" stroke="#E8E0D5" stroke-width="1"></line>
+          <!-- Attention connections (indigo curves from ALL previous layers) -->
+          <path d="M 18 20 Q 0 34, 18 48" stroke="#6366F1" stroke-width="1.4" fill="none" opacity="0.7"></path>
+          <path d="M 18 20 Q -4 54, 18 88" stroke="#6366F1" stroke-width="1.1" fill="none" opacity="0.5"></path>
+          <path d="M 18 60 Q 2 74, 18 88" stroke="#6366F1" stroke-width="1.4" fill="none" opacity="0.7"></path>
+          <path d="M 18 20 Q -8 72, 18 128" stroke="#6366F1" stroke-width="0.9" fill="none" opacity="0.35"></path>
+          <path d="M 18 60 Q -2 94, 18 128" stroke="#6366F1" stroke-width="1.1" fill="none" opacity="0.5"></path>
+          <path d="M 18 100 Q 4 114, 18 128" stroke="#6366F1" stroke-width="1.4" fill="none" opacity="0.7"></path>
+          <path d="M 18 20 Q -10 90, 18 168" stroke="#6366F1" stroke-width="0.8" fill="none" opacity="0.25"></path>
+          <path d="M 18 60 Q -6 112, 18 168" stroke="#6366F1" stroke-width="0.9" fill="none" opacity="0.35"></path>
+          <path d="M 18 100 Q -2 132, 18 168" stroke="#6366F1" stroke-width="1.1" fill="none" opacity="0.5"></path>
+          <path d="M 18 140 Q 4 154, 18 168" stroke="#6366F1" stroke-width="1.4" fill="none" opacity="0.7"></path>
+          <!-- α labels -->
+          <text x="2" y="48" font-size="9" fill="#6366F1" font-family="serif" font-style="italic">α</text>
+          <text x="2" y="88" font-size="9" fill="#6366F1" font-family="serif" font-style="italic">α</text>
+          <text x="2" y="128" font-size="9" fill="#6366F1" font-family="serif" font-style="italic">α</text>
+          <text x="2" y="168" font-size="9" fill="#6366F1" font-family="serif" font-style="italic">α</text>
+          <!-- Layer boxes -->
+          <rect x="15" y="2" width="110" height="26" rx="4" fill="#FAF8F4" stroke="#DDD5C8" stroke-width="1"></rect>
+          <text x="70" y="19" text-anchor="middle" font-size="11" fill="#5A5248" font-family="sans-serif">Embedding</text>
+          <rect x="15" y="42" width="110" height="26" rx="4" fill="#fff" stroke="#6366F1" stroke-width="1" opacity="0.9"></rect>
+          <text x="70" y="59" text-anchor="middle" font-size="11" fill="#1A1714" font-family="sans-serif">Attention</text>
+          <rect x="15" y="82" width="110" height="26" rx="4" fill="#fff" stroke="#6366F1" stroke-width="1" opacity="0.9"></rect>
+          <text x="70" y="99" text-anchor="middle" font-size="11" fill="#1A1714" font-family="sans-serif">MoE</text>
+          <rect x="15" y="122" width="110" height="26" rx="4" fill="#fff" stroke="#6366F1" stroke-width="1" opacity="0.9"></rect>
+          <text x="70" y="139" text-anchor="middle" font-size="11" fill="#1A1714" font-family="sans-serif">Attention</text>
+          <rect x="15" y="162" width="110" height="26" rx="4" fill="#fff" stroke="#6366F1" stroke-width="1" opacity="0.9"></rect>
+          <text x="70" y="179" text-anchor="middle" font-size="11" fill="#1A1714" font-family="sans-serif">MoE</text>
+          <rect x="15" y="202" width="110" height="26" rx="4" fill="#FAF8F4" stroke="#DDD5C8" stroke-width="1"></rect>
+          <text x="70" y="219" text-anchor="middle" font-size="11" fill="#5A5248" font-family="sans-serif">Output</text>
+        </svg>
+        <div class="arch-col-desc">每层可回看全部前层</div>
+      </div>
+
+      <div class="arch-evolve">→</div>
+
+      <!-- (c) Block Attention Residuals -->
+      <div class="arch-col">
+        <div class="arch-col-title">(c) Block AttnRes</div>
+        <svg class="arch-svg" viewBox="0 0 150 240" fill="none">
+          <!-- Block boundary dashed rects -->
+          <rect x="8" y="0" width="134" height="112" rx="6" fill="none" stroke="#6366F1" stroke-width="1.2" stroke-dasharray="4 3" opacity="0.4"></rect>
+          <rect x="8" y="118" width="134" height="72" rx="6" fill="none" stroke="#6366F1" stroke-width="1.2" stroke-dasharray="4 3" opacity="0.4"></rect>
+          <!-- Block labels -->
+          <text x="136" y="12" font-size="8" fill="#6366F1" font-family="monospace" opacity="0.7">Block 1</text>
+          <text x="136" y="130" font-size="8" fill="#6366F1" font-family="monospace" opacity="0.7">Block 2</text>
+          <!-- Intra-block connections (standard residual, gray) -->
+          <line x1="75" y1="28" x2="75" y2="40" stroke="#DDD5C8" stroke-width="1.5"></line>
+          <line x1="75" y1="68" x2="75" y2="80" stroke="#DDD5C8" stroke-width="1.5"></line>
+          <line x1="75" y1="148" x2="75" y2="160" stroke="#DDD5C8" stroke-width="1.5"></line>
+          <!-- Cross-block attention connections (indigo) -->
+          <path d="M 22 104 Q -2 120, 22 128" stroke="#6366F1" stroke-width="1.6" fill="none" opacity="0.7"></path>
+          <path d="M 22 28 Q -8 78, 22 128" stroke="#6366F1" stroke-width="1.1" fill="none" opacity="0.45"></path>
+          <path d="M 22 104 Q -2 152, 22 168" stroke="#6366F1" stroke-width="1.3" fill="none" opacity="0.55"></path>
+          <path d="M 22 28 Q -12 98, 22 168" stroke="#6366F1" stroke-width="0.9" fill="none" opacity="0.35"></path>
+          <!-- Block-to-output attention -->
+          <line x1="75" y1="188" x2="75" y2="200" stroke="#6366F1" stroke-width="1.5" opacity="0.6"></line>
+          <!-- α labels on cross-block connections -->
+          <text x="1" y="120" font-size="9" fill="#6366F1" font-family="serif" font-style="italic">α</text>
+          <text x="1" y="158" font-size="9" fill="#6366F1" font-family="serif" font-style="italic">α</text>
+          <!-- Layer boxes -->
+          <rect x="20" y="2" width="110" height="26" rx="4" fill="#FAF8F4" stroke="#DDD5C8" stroke-width="1"></rect>
+          <text x="75" y="19" text-anchor="middle" font-size="11" fill="#5A5248" font-family="sans-serif">Embedding</text>
+          <rect x="20" y="42" width="110" height="26" rx="4" fill="#fff" stroke="#DDD5C8" stroke-width="1"></rect>
+          <text x="75" y="59" text-anchor="middle" font-size="11" fill="#1A1714" font-family="sans-serif">Attention</text>
+          <rect x="20" y="82" width="110" height="26" rx="4" fill="#fff" stroke="#DDD5C8" stroke-width="1"></rect>
+          <text x="75" y="99" text-anchor="middle" font-size="11" fill="#1A1714" font-family="sans-serif">MoE</text>
+          <rect x="20" y="122" width="110" height="26" rx="4" fill="#fff" stroke="#6366F1" stroke-width="1" opacity="0.9"></rect>
+          <text x="75" y="139" text-anchor="middle" font-size="11" fill="#1A1714" font-family="sans-serif">Attention</text>
+          <rect x="20" y="162" width="110" height="26" rx="4" fill="#fff" stroke="#6366F1" stroke-width="1" opacity="0.9"></rect>
+          <text x="75" y="179" text-anchor="middle" font-size="11" fill="#1A1714" font-family="sans-serif">MoE</text>
+          <rect x="20" y="202" width="110" height="26" rx="4" fill="#FAF8F4" stroke="#DDD5C8" stroke-width="1"></rect>
+          <text x="75" y="219" text-anchor="middle" font-size="11" fill="#5A5248" font-family="sans-serif">Output</text>
+          <!-- Intra-block +1 labels -->
+          <text x="88" y="37" font-size="8" fill="#9A8E84" font-family="monospace">+1</text>
+          <text x="88" y="77" font-size="8" fill="#9A8E84" font-family="monospace">+1</text>
+          <text x="88" y="157" font-size="8" fill="#9A8E84" font-family="monospace">+1</text>
+        </svg>
+        <div class="arch-col-desc">分块 + 跨块 attention</div>
+      </div>
+    </div>
+
+    <!-- Key takeaways below diagram -->
+    <ul class="bullet-list reveal d3" style="margin-top: clamp(1.8rem, 3.5vw, 3rem);">
+      
+      <li contenteditable="true"><strong>对偶性</strong>：Ilya 指出 LSTM ↔ 残差网络；同理 Attention ↔ <span class="kimi-highlight">Attention Residuals</span></li>
+      <li contenteditable="true"><strong>Block AttnRes</strong>：分块压缩 O(L²) → O(L·N)</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 7 — KIMI: TECHNICAL DEEP DIVE 2
+     ============================================ -->
+<section class="slide visible" id="slide-kimi-tech2" aria-label="Kimi Block AttnRes and results">
+  <div class="accent-stripe" style="background: #6366F1;"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">Kimi AttnRes · Scaling &amp; Results</span>
+    <span class="slide-topbar-num">07 / 27</span>
+  </div>
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);" contenteditable="true">Block AttnRes：工程落地与规模化验证</h2>
+    <p style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3em;" class="reveal d2" contenteditable="true">
+      Kimi Linear 48B (3B activated) · 1.4T tokens · Block AttnRes N≈8
+    </p>
+
+    <ul class="bullet-list reveal d3" style="margin-top: clamp(0.5rem, 1.2vw, 1rem);">
+      
+      <li contenteditable="true"><strong>效率</strong>同等性能训练计算量减少 ~20% = <strong>1.25× 效率优势</strong></li>
+      <li contenteditable="true"><strong>Benchmark 提升</strong>：GPQA-Diamond +7.5 · Math +3.6 · HumanEval +3.1 · MMLU +1.1</li>
+      <li contenteditable="true"><strong>训练稳定性</strong>：输出幅度 bounded（不再随深度单调增长），梯度分布更均匀</li>
+    </ul>
+
+    <div class="insight-box reveal d4" style="margin-top: clamp(0.5rem, 1.2vw, 1rem);">
+      <div class="insight-eyebrow">投资视角</div>
+      <div class="insight-text" contenteditable="true">残差连接是最基础的架构组件，AttnRes 证明这里仍有显著优化空间。在训练成本日益高企的今天，1.25× 效率提升意味着数千万美元级别的成本节约。</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 8 — SECTION 01 OPENER (Agentic Training)
+     ============================================ -->
+<section class="slide visible" id="slide-3" aria-label="Section 01 opener">
+  <div class="accent-stripe"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">Section 01 · Trend</span>
+    <span class="slide-topbar-num">08 / 27</span>
+  </div>
+
+  <div class="slide-content">
+    <div class="opener-inner">
+      <hr class="rule-accent reveal d1" style="margin: 0 0 clamp(0.4rem, 1vw, 0.8rem) 0;">
+      <h2 class="opener-h reveal d2" contenteditable="true">
+        为了提升Agent表现&nbsp;<div><div><div><em>"Agentic harness"</em></div><div>
+        正在从外部框架走向模型层
+      </div></div></div></h2>
+      <p class="opener-p reveal d3" contenteditable="true">AI 能力涌现方式的转变。
+        三家公司以不同形式验证了同一方向：agent 框架的核心能力正在被内化为模型的原生能力。
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 4 — GROK 4.20: 4-AGENT ARCHITECTURE
+     ============================================ -->
+<section class="slide visible" id="slide-4" aria-label="Grok 4.20 multi-agent architecture">
+  <div class="accent-stripe"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">Grok 4.20 · xAI</span>
+    <span class="slide-topbar-num">09 / 27</span>
+  </div>
+
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);"><span class="model-name model-grok">Grok 4.20</span>：内置 4-Agent 团队，复杂查询自动启用</h2>
+    <p style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3em;" class="reveal d2">
+      不同于以往单一模型，4.20 将 multi-agent 内化为模型原生能力
+    </p>
+
+    <div class="agent-grid reveal d3" style="margin-top: clamp(0.6rem, 1.5vw, 1.5rem);">
+      <div class="agent-card">
+        <div class="agent-role role-coordinator">Coordinator</div>
+        <div class="agent-name" contenteditable="true">Grok</div>
+        <div class="agent-desc" contenteditable="true">协调者；机智诚实，负责综合最终输出，掌控全局节奏与质量</div>
+      </div>
+      <div class="agent-card">
+        <div class="agent-role role-research">Research</div>
+        <div class="agent-name" contenteditable="true">Harper</div>
+        <div class="agent-desc" contenteditable="true">研究专家；实时进行事实核查、收集来源、验证信息真实性</div>
+      </div>
+      <div class="agent-card">
+        <div class="agent-role role-logic">Logic · Math · Code</div>
+        <div class="agent-name" contenteditable="true">Benjamin</div>
+        <div class="agent-desc" contenteditable="true">负责严谨推理、编程验证与技术深度分析，确保逻辑严密</div>
+      </div>
+      <div class="agent-card">
+        <div class="agent-role role-creative">Creative</div>
+        <div class="agent-name" contenteditable="true">Lucas</div>
+        <div class="agent-desc" contenteditable="true">创意达人；挑战假设，探索替代方案，减少群体思维盲区</div>
+      </div>
+    </div>
+
+    <div class="insight-box reveal d4" style="margin-top: clamp(0.6rem, 1.3vw, 1.3rem);">
+      <div class="insight-eyebrow">结果</div>
+      <div class="insight-text" contenteditable="true">第三方测试：幻觉率降低约 65%；4 个 agent 内部实时讨论后给出统一、更高质量的响应</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 5 — GROK 4.20: SEARCH ARENA #1
+     ============================================ -->
+<section class="slide visible" id="slide-5" aria-label="Grok 4.20 Search Arena ranking">
+  <div class="accent-stripe"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">Grok 4.20 · Performance</span>
+    <span class="slide-topbar-num">10 / 27</span>
+  </div>
+
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);">Search Arena 排名第一</h2>
+
+    <div class="two-col reveal d3" style="margin-top: clamp(0.7rem, 1.5vw, 1.5rem); align-items: center;">
+      <div style="display: flex; flex-direction: column; gap: clamp(0.6rem, 1.2vw, 1.2rem);">
+        <div class="card" style="display: flex; gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center;">
+          <div class="stat-block">
+            <div class="stat-num accent">#1</div>
+            <div class="stat-label">Search Arena<br>3,992 用户投票</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-num">1226</div>
+            <div class="stat-label">Arena Score<br>(±9, Preliminary)</div>
+          </div>
+        </div>
+
+        <div class="score-table">
+          <div class="score-row winner">
+            <span class="score-rank">#1</span>
+            <span class="score-model">grok-4.20-beta1 (xAI)</span>
+            <span class="score-val">1226</span>
+          </div>
+          <div class="score-row">
+            <span class="score-rank">#2</span>
+            <span class="score-model">gpt-5.2-search (OpenAI)</span>
+            <span class="score-val">1219</span>
+          </div>
+          <div class="score-row">
+            <span class="score-rank">#3</span>
+            <span class="score-model">gemini-3-flash-grounding</span>
+            <span class="score-val">1217</span>
+          </div>
+          <div class="score-row">
+            <span class="score-rank">#4</span>
+            <span class="score-model">gemini-3-pro-grounding</span>
+            <span class="score-val">1215</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal-scale" style="display:flex; justify-content:center; align-items:center;">
+        <img src="source/images/Grok-Arena-Score.png" alt="Grok 4.20 Arena Rankings screenshot" class="slide-img">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 6 — SECTION 01 INSIGHT / CONCLUSION
+     ============================================ -->
+<section class="slide visible" id="slide-6" aria-label="Section 01 conclusion">
+  <div class="accent-stripe"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">Section 01 · Insight</span>
+    <span class="slide-topbar-num">11 / 27</span>
+  </div>
+
+  <div class="slide-content">
+    <div class="opener-inner" style="max-width: 760px;">
+      <hr class="rule-accent reveal d1" style="margin: 0 0 clamp(0.4rem, 1vw, 0.8rem) 0;">
+      <h2 class="opener-h reveal d2" style="font-size: clamp(1.2rem, 3.2vw, 2.6rem);" contenteditable="true"><div><span style="letter-spacing: -0.832px;">Why Agent Harness?</span></div>Agentic post-training 才是最终形态</h2>
+      <ul class="bullet-list reveal d3" style="margin-top: clamp(0.5rem, 1.2vw, 1.2rem);">
+        <li contenteditable="true">xAI 目前以 scaffold 形式实现，是过渡态；真正的 agentic post-training 已在路上</li>
+        <li contenteditable="true">Agentic post-training 会迅速吞噬轻量级外部 harness 的短期价值</li>
+        <li contenteditable="true">Verification、memory、multi-role 等通用 agent 能力将更快走向模型原生</li>
+        <li contenteditable="true">对 agent 框架公司的压力真实存在——核心价值需向更高层抽象（orchestration、domain expertise）转移</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 7 — MINIMAX M2.7: SELF-EVOLUTION
+     ============================================ -->
+<section class="slide visible" id="slide-7" aria-label="MiniMax M2.7 model self-evolution">
+  <div class="accent-stripe" style="background: var(--accent-2);"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">MiniMax M2.7 · 2026-03-18</span>
+    <span class="slide-topbar-num">12 / 27</span>
+  </div>
+
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);"><span class="model-name model-minimax">MiniMax M2.7</span>：第一个深度参与迭代自己的模型</h2>
+
+    <div class="mm-grid reveal d3" style="margin-top: clamp(0.6rem, 1.3vw, 1.3rem);">
+      <div class="mm-card mm-card-hl">
+        <div class="mm-title"><span class="mm-dot"></span>Agent 自主构建 Harness</div>
+        <div class="mm-body" contenteditable="true">第一个深度参与迭代自己的模型</div>
+      </div>
+      <div class="mm-card">
+        <div class="mm-title"><span class="mm-dot" style="background:var(--accent-2)"></span>驱动自身强化学习</div>
+        <div class="mm-body" contenteditable="true">M2.7 能自行构建复杂 Agent Harness，基于 Agent Teams、复杂 Skills、Tool Search 完成高难度生产力任务</div>
+      </div>
+      <div class="mm-card mm-card-hl">
+        <div class="mm-title"><span class="mm-dot"></span>自主优化 &gt;100 轮迭代</div>
+        <div class="mm-body" contenteditable="true">M2 早期版本作为研究 Agent，管理数据流水线、训练环境、评测基础设施，研究员仅在关键决策时介入</div>
+      </div>
+      <div class="mm-card">
+        <div class="mm-title"><span class="mm-dot" style="background:var(--accent-2)"></span>MLE Bench：66.6% 得牌率</div>
+        <div class="mm-body" contenteditable="true">M2.7 自主执行「分析失败→规划改动→修改代码→运行评测→决定保留/回退」循环，内部评测集效果提升 30%</div>
+      </div>
+    </div>
+
+    <div class="insight-box reveal d4" style="margin-top: clamp(0.5rem, 1vw, 1rem); border-left-color: var(--accent-2);">
+      <div class="insight-eyebrow" style="color: var(--accent-2);">核心观点</div>
+      <div class="insight-text" contenteditable="true">三次测试平均 66.6%，仅次于 Opus-4.6 (75.7%) 和 GPT-5.4 (71.2%)，与 Gemini-3.1 持平</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 8 — MINIMAX M2.7: SOFTWARE ENGINEERING
+     ============================================ -->
+<section class="slide visible" id="slide-8" aria-label="MiniMax M2.7 software engineering benchmarks">
+  <div class="accent-stripe" style="background: var(--accent-2);"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">MiniMax M2.7 · Software Engineering</span>
+    <span class="slide-topbar-num">13 / 27</span>
+  </div>
+
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);">真实软件工程：接近第一梯队</h2>
+
+    <div class="two-col reveal d3" style="margin-top: clamp(0.7rem, 1.5vw, 1.5rem); align-items: center;">
+      <div style="display: flex; flex-direction: column; gap: clamp(0.4rem, 0.8vw, 0.8rem);">
+        <div class="bench-row">
+          <span class="bench-name">SWE-Pro</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 56.22%; background: var(--accent-2);"></div></div>
+          <span class="bench-score">56.2%</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">Multi-SWE</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 52.7%; background: var(--accent-2);"></div></div>
+          <span class="bench-score">52.7%</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">VIBE-Pro</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 55.6%; background: var(--accent);"></div></div>
+          <span class="bench-score">55.6%</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">Terminal Bench 2</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 57%; background: var(--accent);"></div></div>
+          <span class="bench-score">57.0%</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">SWE Multilingual</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 76.5%; background: #7B6CF0;"></div></div>
+          <span class="bench-score">76.5%</span>
+        </div>
+        <div style="font-size: var(--micro-size); color: var(--text-faint); margin-top: 0.2rem; line-height: 1.5;">
+          SWE-Pro 追平 GPT-5.3-Codex &nbsp;·&nbsp; VIBE-Pro 近 Opus 4.6 &nbsp;·&nbsp; 可直接交付端到端项目
+        </div>
+      </div>
+
+      <div class="reveal-scale" style="display:flex; justify-content:center; align-items:center;">
+        <img src="source/images/Minimax2.7.png" alt="MiniMax M2.7 benchmark comparison chart" class="slide-img">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 9 — MINIMAX M2.7: PROFESSIONAL OFFICE
+     ============================================ -->
+<section class="slide visible" id="slide-9" aria-label="MiniMax M2.7 professional office capabilities">
+  <div class="accent-stripe" style="background: var(--accent-2);"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">MiniMax M2.7 · Professional Office</span>
+    <span class="slide-topbar-num">14 / 27</span>
+  </div>
+
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);">两大核心能力：专业知识 + 复杂环境交互</h2>
+
+    <div class="two-col reveal d3" style="margin-top: clamp(0.6rem, 1.3vw, 1.3rem); align-items: start;">
+      <div>
+        <div style="font-size: var(--small-size); color: var(--accent); font-weight: 700; margin-bottom: clamp(0.4rem, 0.8vw, 0.8rem);">① 专业知识与任务交付</div>
+        <ul class="bullet-list">
+          <li contenteditable="true">模型自我进化不只是实验性亮点——这是 AI Native 组织提升迭代速度的真实生产力路径，而非 demo</li>
+          <li contenteditable="true">GDPval-AA ELO 1495，45 个模型中开源最高，仅次于 Opus/Sonnet/GPT-5.4</li>
+          <li contenteditable="true">Excel/PPT/Word 复杂编辑：多轮修改，高保真可编辑产物</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size: var(--small-size); color: var(--accent-2); font-weight: 700; margin-bottom: clamp(0.4rem, 0.8vw, 0.8rem);">② 与复杂环境的交互能力</div>
+        <ul class="bullet-list">
+          <li contenteditable="true">案例：自主阅读台积电年报 → 交叉比对研报 → 建模营收 → 输出 Excel + PPT + Word 研报，评价可直接进入工作流</li>
+          <li contenteditable="true">Toolathon 46.3%，全球第一梯队水平</li>
+          <li contenteditable="true">40 个复杂 skills（&gt;2000 Token）：仍保持 97% skills 遵循率</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="insight-box reveal d4" style="margin-top: clamp(0.6rem, 1.2vw, 1.2rem); border-left-color: var(--accent-2);">
+      <div class="insight-eyebrow" style="color: var(--accent-2);">观点</div>
+      <div class="insight-text" contenteditable="true">MM Claw 62.7%，接近 Sonnet 4.6，OpenClaw 社区中显著领先 M2.5</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 10 — MIROTHINKER 1.7: VERIFICATION
+     ============================================ -->
+<section class="slide visible" id="slide-10" aria-label="MiroThinker 1.7 verification-centric reasoning">
+  <div class="accent-stripe"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">MiroThinker 1.7 &amp; H1 · MiroMind</span>
+    <span class="slide-topbar-num">15 / 27</span>
+  </div>
+
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);"><span class="model-name model-miro">MiroThinker 1.7</span>：让每步交互真正有信息增益</h2>
+
+    <div class="mm-grid reveal d2" style="margin-top: clamp(0.6rem, 1.3vw, 1.3rem);">
+      <div class="mm-card">
+        <div class="mm-title">Mid-training 阶段</div>
+        <div class="mm-body" contenteditable="true">办公 Agent 的价值边界已从代码扩展至金融建模、文档生产流水线。初级分析师的 workflow 开始被结构性替代，而非单纯辅助增强。</div>
+      </div>
+      <div class="mm-card mm-card-hl">
+        <div class="mm-title">Local Verification</div>
+        <div class="mm-body" contenteditable="true">让每步交互真正有信息增益</div>
+      </div>
+      <div class="mm-card mm-card-hl">
+        <div class="mm-title">Global Verification</div>
+        <div class="mm-body" contenteditable="true">大规模合成 planning、reasoning、summarization 数据，强化 agentic 原生基础</div>
+      </div>
+      <div class="mm-card">
+        <div class="mm-title">效果：更少步骤，更高精度</div>
+        <div class="mm-body" contenteditable="true">打破概率偏见，充分探索正确路径；不只走「最可能」，而是走「正确」</div>
+      </div>
+    </div>
+
+    <div class="insight-box reveal d3" style="margin-top: clamp(0.6rem, 1.2vw, 1.2rem); padding: clamp(0.5rem, 1vw, 0.9rem) clamp(0.7rem, 1.4vw, 1.3rem);">
+      <div class="insight-eyebrow">与主线趋势的联系</div>
+      <div class="insight-text" style="font-size: clamp(0.75rem, 1.2vw, 1rem);" contenteditable="true">审计完整证据链，让支撑最充分的答案胜出，而非最自信的答案</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 11 — MIROTHINKER BENCHMARK CHART
+     ============================================ -->
+<section class="slide visible" id="slide-11" aria-label="MiroThinker benchmark results">
+  <div class="accent-stripe" style="background: #2D7D5A;"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">MiroThinker 1.7 · Benchmarks</span>
+    <span class="slide-topbar-num">16 / 27</span>
+  </div>
+
+  <div class="slide-content" style="justify-content: center; align-items: center; text-align: center;">
+    <img src="source/images/Miromind.png" alt="MiroThinker 1.7 benchmark results across BrowseComp, FrontierScience, FinSearchComp" class="reveal" style="max-width: min(88vw, 960px); max-height: min(80vh, 680px); object-fit: contain; border-radius: 10px; border: 1px solid var(--border);">
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE — SECTION 02: EFFICIENCY OPENER
+     ============================================ -->
+<section class="slide visible" id="slide-efficiency-opener" aria-label="Section 02 Efficiency opener">
+  <div class="accent-stripe" style="background: #10A37F;"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">Section 02 · Efficiency</span>
+    <span class="slide-topbar-num">17 / 27</span>
+  </div>
+
+  <div class="slide-content">
+    <div class="opener-inner">
+      <hr class="rule-accent reveal d1" style="margin: 0 0 clamp(0.4rem, 1vw, 0.8rem) 0;">
+      <h2 class="opener-h reveal d2" contenteditable="true">
+        小模型正在成为<div>Agent 执行的选项</div>
+      </h2>
+      <p class="opener-p reveal d3" contenteditable="true">GPT-5.4 mini 多项能力逼近满血版，MiMo-V2-Pro 匿名霸榜 OpenRouter——小模型不再是「降级选择」，而是分层调度体系中真正的生产力担当。</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 12 — GPT-5.4 MINI & NANO INTRO
+     ============================================ -->
+<section class="slide visible" id="slide-12" aria-label="GPT-5.4 mini and nano introduction">
+  <div class="accent-stripe" style="background: #10A37F;"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">GPT-5.4 mini &amp; nano · Overview</span>
+    <span class="slide-topbar-num">18 / 27</span>
+  </div>
+
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);" contenteditable="true">
+      <span class="model-name model-openai">GPT-5.4 mini &amp; nano</span>：小模型走向核心生产力
+    </h2>
+    <p style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3em;" class="reveal d2">
+      OpenAI 继续把小模型推向快、强、便宜的实用区间，面向 agent execution 场景
+    </p>
+
+    <div class="two-col reveal d3" style="align-items: center; gap: clamp(1.5rem, 4vw, 4rem); margin-top: clamp(0.6rem, 1.5vw, 1.5rem);">
+      <div style="display: flex; flex-direction: column; gap: var(--content-gap);">
+        <ul class="bullet-list" style="margin: 0;">
+          <li contenteditable="true">小模型路线延续行业共识：<strong>lower cost · lower latency · stronger real-world usability</strong></li>
+          <li contenteditable="true">核心亮点：<strong>GPT-5.4 mini 已接近满血版</strong>，性能差距大幅收窄</li>
+          <li contenteditable="true">重点方向集中于 agentic 能力</li>
+        </ul>
+        <div class="cap-chips">
+          <span class="cap-chip">Agentic Coding</span>
+          <span class="cap-chip">Tool Use</span>
+          <span class="cap-chip">Computer Use</span>
+        </div>
+      </div>
+      <div class="reveal-scale" style="flex: 0 0 44%; display: flex; align-items: center; justify-content: center;">
+        <img src="source/images/5.4_Mini_Nano_Hero___SEO.png" alt="GPT-5.4 mini and nano hero" style="width: 100%; max-height: min(48vh, 380px); object-fit: contain; border-radius: 12px;">
+      </div>
+    </div>
+
+    <div class="insight-box reveal d4" style="margin-top: clamp(0.5rem, 1vw, 1rem); border-left-color: #10A37F;">
+      <div class="insight-eyebrow" style="color: #10A37F;">核心变化</div>
+      <div class="insight-text" contenteditable="true">mini 在多项 benchmark 上已逼近满血 GPT-5.4，大量 agentic 任务可迁移到更低成本模型</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 13 — CODING BENCHMARKS
+     ============================================ -->
+<section class="slide visible" id="slide-13" aria-label="GPT-5.4 mini coding benchmarks">
+  <div class="accent-stripe" style="background: #10A37F;"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">GPT-5.4 mini · Coding</span>
+    <span class="slide-topbar-num">19 / 27</span>
+  </div>
+
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);" contenteditable="true">
+      Coding：mini 已接近满血，nano 开始接棒
+    </h2>
+
+    <div class="two-col reveal d2" style="margin-top: clamp(0.7rem, 1.5vw, 1.5rem); align-items: start; gap: clamp(2rem, 4vw, 4rem);">
+      <!-- SWE-Bench Pro -->
+      <div style="display: flex; flex-direction: column; gap: clamp(0.4rem, 0.8vw, 0.8rem);">
+        <div style="font-size: var(--micro-size); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); padding-bottom: 0.4rem; border-bottom: 1px solid var(--border);">SWE-Bench Pro (Public)</div>
+        <div class="bench-row">
+          <span class="bench-name">GPT-5.4</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 57.7%; background: var(--text-muted);"></div></div>
+          <span class="bench-score">57.7%</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name" style="color: #10A37F; font-weight: 600;">GPT-5.4 mini</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 54.4%; background: #10A37F;"></div></div>
+          <span class="bench-score" style="color: #10A37F;">54.4%</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">GPT-5.4 nano</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 52.4%; background: var(--border);"></div></div>
+          <span class="bench-score">52.4%</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name" style="opacity: 0.5;">GPT-5 mini</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 45.7%; background: var(--border);"></div></div>
+          <span class="bench-score" style="opacity: 0.5;">45.7%</span>
+        </div>
+        <div style="font-size: var(--micro-size); color: #10A37F; font-weight: 600; margin-top: 0.2rem;">
+          mini 与满血差距仅 3.3%
+        </div>
+      </div>
+
+      <!-- Terminal-Bench 2.0 -->
+      <div style="display: flex; flex-direction: column; gap: clamp(0.4rem, 0.8vw, 0.8rem);">
+        <div style="font-size: var(--micro-size); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); padding-bottom: 0.4rem; border-bottom: 1px solid var(--border);">Terminal-Bench 2.0</div>
+        <div class="bench-row">
+          <span class="bench-name">GPT-5.4</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 75.1%; background: var(--text-muted);"></div></div>
+          <span class="bench-score">75.1%</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name" style="color: #10A37F; font-weight: 600;">GPT-5.4 mini</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 60%; background: #10A37F;"></div></div>
+          <span class="bench-score" style="color: #10A37F;">60.0%</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">GPT-5.4 nano</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 46.3%; background: var(--border);"></div></div>
+          <span class="bench-score">46.3%</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name" style="opacity: 0.5;">GPT-5 mini</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 38.2%; background: var(--border);"></div></div>
+          <span class="bench-score" style="opacity: 0.5;">38.2%</span>
+        </div>
+        <div style="font-size: var(--micro-size); color: #10A37F; font-weight: 600; margin-top: 0.2rem;">
+          较上代 GPT-5 mini 提升 +57%
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-box reveal d3" style="margin-top: clamp(0.6rem, 1.2vw, 1.2rem); border-left-color: #10A37F;">
+      <div class="insight-eyebrow" style="color: #10A37F;">Takeaway</div>
+      <div class="insight-text" contenteditable="true">大量高频 coding 任务可迁移到 mini；轻量任务可进一步下沉到 nano</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 14 — REASONING + TOOL USE
+     ============================================ -->
+<section class="slide visible" id="slide-14" aria-label="GPT-5.4 mini reasoning and tool use benchmarks">
+  <div class="accent-stripe" style="background: #10A37F;"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">GPT-5.4 mini · Reasoning &amp; Tool Use</span>
+    <span class="slide-topbar-num">20 / 27</span>
+  </div>
+
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);" contenteditable="true">
+      理解力 + 工具链：从"聪明模型"到"能干的 Worker"
+   </h2>
+
+    <div class="two-col reveal d2" style="margin-top: clamp(0.7rem, 1.5vw, 1.5rem); align-items: start;">
+      <!-- Left: hero stats -->
+      <div style="display: flex; flex-direction: column; gap: clamp(0.6rem, 1.2vw, 1.2rem);">
+        <div class="card" style="display: flex; gap: clamp(1rem, 2.5vw, 2.5rem); align-items: center;">
+          <div class="stat-block">
+            <div class="stat-num" style="color: #10A37F;" contenteditable="true">88.0%</div>
+            <div class="stat-label" contenteditable="true">GPQA Diamond<br>博士级科学推理</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-num" style="color: #10A37F;" contenteditable="true">93.4%</div>
+            <div class="stat-label" contenteditable="true">τ2-bench<br>电信行业基准</div>
+          </div>
+        </div>
+        <ul class="bullet-list" style="margin: 0;">
+          <li contenteditable="true"><strong>MCP Atlas 57.7%</strong>：真实 MCP server 工具发现 &amp; 跨 server 串联调用</li>
+          <li contenteditable="true"><strong>Toolathlon 42.9%</strong>：多步骤任务中工具组合、排序与使用</li>
+        </ul>
+        <p class="comp-note">GPT-5.4 mini · xhigh setting</p>
+      </div>
+
+      <!-- Right: animated benchmark bars -->
+      <div style="display: flex; flex-direction: column; gap: clamp(0.4rem, 0.8vw, 0.8rem);">
+        <div style="font-size: var(--micro-size); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); padding-bottom: 0.4rem; border-bottom: 1px solid var(--border);">GPT-5.4 mini vs. 竞品</div>
+        <div class="bench-row">
+          <span class="bench-name">GPQA Diamond</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 88%; background: #10A37F;"></div></div>
+          <span class="bench-score" style="color: #10A37F;">88.0%</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">τ2-bench</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 93.4%; background: #10A37F;"></div></div>
+          <span class="bench-score" style="color: #10A37F;">93.4%</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">MCP Atlas</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 57.7%; background: #10A37F;"></div></div>
+          <span class="bench-score" style="color: #10A37F;">57.7%</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">Toolathlon</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw: 42.9%; background: #10A37F;"></div></div>
+          <span class="bench-score" style="color: #10A37F;">42.9%</span>
+        </div>
+        <div style="margin-top: clamp(0.3rem, 0.6vw, 0.6rem); display: flex; flex-direction: column; gap: 0.2rem;">
+          <div style="font-size: var(--micro-size); color: var(--text-faint); display: flex; align-items: center; gap: 0.5rem;">
+            <span style="display: inline-block; width: 12px; height: 3px; background: var(--text-muted); border-radius: 2px;"></span> GPT-5.4 满血
+          </div>
+          <div class="bench-row" style="opacity: 0.45;">
+            <span class="bench-name">GPQA Diamond</span>
+            <div class="bench-track"><div class="bench-fill" style="--bw: 93%; background: var(--text-muted);"></div></div>
+            <span class="bench-score">93.0%</span>
+          </div>
+          <div class="bench-row" style="opacity: 0.45;">
+            <span class="bench-name">τ2-bench</span>
+            <div class="bench-track"><div class="bench-fill" style="--bw: 98.9%; background: var(--text-muted);"></div></div>
+            <span class="bench-score">98.9%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-box reveal d3" style="margin-top: clamp(0.6rem, 1.2vw, 1.2rem); border-left-color: #10A37F;">
+      <div class="insight-eyebrow" style="color: #10A37F;">Takeaway</div>
+      <div class="insight-text" contenteditable="true">模型在工具链中完成任务的能力明显增强，更接近可执行的 worker</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 15 — COMPUTER USE: OPENCLAW
+     ============================================ -->
+<section class="slide visible" id="slide-15" aria-label="GPT-5.4 mini computer use benchmarks">
+  <div class="accent-stripe" style="background: #10A37F;"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">GPT-5.4 mini · Computer Use</span>
+    <span class="slide-topbar-num">21 / 27</span>
+  </div>
+
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);" contenteditable="true">
+      🦞 OpenClaw：mini 逼近完整 Computer Use 能力边界
+    </h2>
+    <p style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3em;" class="reveal d2">
+      MM / Vision / CUA benchmarks · mini 已具备三层 agentic 能力
+    </p>
+
+    <div class="two-col reveal d3" style="align-items: flex-start; gap: clamp(1.5rem, 3.5vw, 3.5rem); margin-top: clamp(0.6rem, 1.3vw, 1.3rem);">
+      <div style="display: flex; flex-direction: column; gap: clamp(0.6rem, 1.2vw, 1.2rem);">
+        <ul class="bullet-list" style="margin: 0;">
+          <li contenteditable="true"><strong>OSWorld-Verified</strong>：mini <strong>72.1%</strong> vs 满血 75.0%，仅差 2.9%</li>
+          <li contenteditable="true"><strong>MMMUPro</strong>：mini <strong>76.6%</strong>，vision + tool use 综合表现稳定</li>
+          <li contenteditable="true">nano 在 OSWorld 仅 <strong>39.0%</strong>，computer use 能力代差明显</li>
+        </ul>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.2rem;">
+          <div style="font-size: var(--micro-size); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);">mini 具备的 agentic 能力层</div>
+          <div class="cap-chips" style="margin: 0;">
+            <span class="cap-chip">能看界面</span>
+            <span class="cap-chip">能理解环境</span>
+            <span class="cap-chip">能执行操作链</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal-scale" style="flex: 0 0 50%; display: flex; flex-direction: column; gap: 0.5rem;">
+        <div class="comp-board">
+          <div class="comp-header" style="grid-template-columns: 1.5fr 0.75fr 0.9fr 0.75fr 0.75fr;">
+            <div>MM / Vision / CUA</div>
+            <div>GPT-5.4</div>
+            <div class="cm">GPT-5.4 mini</div>
+            <div>nano</div>
+            <div>GPT-5 mini</div>
+          </div>
+          <div class="comp-row" style="grid-template-columns: 1.5fr 0.75fr 0.9fr 0.75fr 0.75fr;">
+            <div contenteditable="true">OSWorld-Verified</div><div contenteditable="true">75.0%</div><div class="cm" contenteditable="true">72.1%</div><div contenteditable="true">39.0%</div><div contenteditable="true">42.0%</div>
+          </div>
+          <div class="comp-row" style="grid-template-columns: 1.5fr 0.75fr 0.9fr 0.75fr 0.75fr;">
+            <div contenteditable="true">MMMUPro w/ Python</div><div contenteditable="true">81.5%</div><div class="cm" contenteditable="true">78.0%</div><div contenteditable="true">69.5%</div><div contenteditable="true">74.1%</div>
+          </div>
+          <div class="comp-row" style="grid-template-columns: 1.5fr 0.75fr 0.9fr 0.75fr 0.75fr;">
+            <div contenteditable="true">MMMUPro</div><div contenteditable="true">81.2%</div><div class="cm" contenteditable="true">76.6%</div><div contenteditable="true">66.1%</div><div contenteditable="true">67.5%</div>
+          </div>
+          <div class="comp-row" style="grid-template-columns: 1.5fr 0.75fr 0.9fr 0.75fr 0.75fr;">
+            <div contenteditable="true">OmniDocBench 1.5 ↓</div><div contenteditable="true">0.109</div><div class="cm" contenteditable="true">0.1263</div><div contenteditable="true">0.2419</div><div contenteditable="true">0.1791</div>
+          </div>
+        </div>
+        <p class="comp-note">↓ lower is better · xhigh setting · GPT-5 mini at high¹</p>
+      </div>
+    </div>
+
+    
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 16 — LONG CONTEXT WEAKNESS + TIERED DISPATCH
+     ============================================ -->
+<section class="slide visible" id="slide-16" aria-label="Long context weakness and tiered dispatch strategy">
+  <div class="accent-stripe" style="background: var(--accent);"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">GPT-5.4 mini · 局限与策略</span>
+    <span class="slide-topbar-num">22 / 27</span>
+  </div>
+
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);" contenteditable="true">
+      执行力强，长上下文仍是短板
+    </h2>
+    <p style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3em;" class="reveal d2">
+      mini 的能力边界与最佳调度策略
+    </p>
+
+    <div class="two-col reveal d3" style="gap: clamp(1.5rem, 3vw, 3rem); align-items: start; margin-top: clamp(0.6rem, 1.3vw, 1.3rem);">
+      <div style="display: flex; flex-direction: column; gap: clamp(0.6rem, 1.2vw, 1.2rem);">
+        <div style="font-size: var(--micro-size); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent);">明显短板</div>
+        <ul class="bullet-list" style="margin: 0;">
+          <li contenteditable="true">Long document tracing：跨越大文档的精确定位</li>
+          <li contenteditable="true">Multi-hop retrieval：长上下文中多跳推理与检索</li>
+          <li contenteditable="true">Sustained reasoning：超长输入中的持续推理稳定性</li>
+        </ul>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: clamp(0.6rem, 1.2vw, 1.2rem);">
+        <div style="font-size: var(--micro-size); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">分层调度策略</div>
+        <ul class="bullet-list" style="margin: 0;">
+          <li contenteditable="true"><strong style="color: var(--text-primary);">满血模型</strong> → 规划、协调与最终决策</li>
+          <li contenteditable="true"><strong style="color: #10A37F;">mini / nano</strong> → 具体任务并行执行</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="insight-box reveal d4" style="margin-top: clamp(0.5rem, 1vw, 1rem);">
+      <div class="insight-eyebrow">核心观点</div>
+      <div class="insight-text" contenteditable="true">最好的 AI 系统，不一定要用最大的模型来处理所有事情</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 17 — XIAOMI MIMO-V2-PRO OVERVIEW
+     ============================================ -->
+<section class="slide visible" id="slide-17" aria-label="Xiaomi MiMo-V2-Pro overview">
+  <div class="accent-stripe" style="background: #FF6900;"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">小米 MiMo-V2-Pro · 概览</span>
+    <span class="slide-topbar-num">23 / 27</span>
+  </div>
+
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);" contenteditable="true">
+      <span class="model-name model-mimo">MiMo-V2-Pro</span>：Agent 能力进入全球第一梯队
+    </h2>
+    <p style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3em;" class="reveal d2">
+      2026-03-18 · 1T+ 参数 / 42B active / 1M token 上下文
+    </p>
+
+    <div class="two-col reveal d3" style="margin-top: clamp(0.6rem, 1.3vw, 1.3rem); align-items: start;">
+      <div style="display: flex; flex-direction: column; gap: clamp(0.35rem, 0.7vw, 0.7rem);">
+        <div style="font-size: var(--micro-size); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); padding-bottom: 0.4rem; border-bottom: 1px solid var(--border);">PinchBench (avg.) · Agent 综合</div>
+        <div class="bench-row">
+          <span class="bench-name" contenteditable="true">Opus 4.6</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw:100%; background: var(--text-muted);"></div></div>
+          <span class="bench-score" contenteditable="true">81.5</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name" style="color: #FF6900; font-weight: 700;" contenteditable="true">MiMo-V2-Pro</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw:99.4%; background: #FF6900;"></div></div>
+          <span class="bench-score" style="color: #FF6900; font-weight: 700;" contenteditable="true">81.0</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name" contenteditable="true">Sonnet 4.6</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw:97.2%; background: var(--border);"></div></div>
+          <span class="bench-score" style="opacity: 0.5;" contenteditable="true">79.2</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name" contenteditable="true">GPT-5.2</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw:94.5%; background: var(--border);"></div></div>
+          <span class="bench-score" style="opacity: 0.5;" contenteditable="true">77.0</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name" contenteditable="true">Gemini 3 Pro</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw:83.1%; background: var(--border);"></div></div>
+          <span class="bench-score" style="opacity: 0.5;" contenteditable="true">67.7</span>
+        </div>
+        <p class="comp-note" style="color: #FF6900;">#3 全球 · 仅差 Opus 0.5 分 · 中国模型仅次于Minimax 2.7</p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: clamp(0.35rem, 0.7vw, 0.7rem);">
+        <div style="font-size: var(--micro-size); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); padding-bottom: 0.4rem; border-bottom: 1px solid var(--border);">ClawEval · 代码 Agent 执行</div>
+        <div class="bench-row">
+          <span class="bench-name" contenteditable="true">Opus 4.6</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw:100%; background: var(--text-muted);"></div></div>
+          <span class="bench-score" contenteditable="true">66.3</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name" contenteditable="true">Sonnet 4.6</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw:100%; background: var(--text-muted);"></div></div>
+          <span class="bench-score" contenteditable="true">66.3</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name" style="color: #FF6900; font-weight: 700;" contenteditable="true">MiMo-V2-Pro</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw:92.8%; background: #FF6900;"></div></div>
+          <span class="bench-score" style="color: #FF6900; font-weight: 700;" contenteditable="true">61.5</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name" contenteditable="true">Gemini 3 Pro</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw:78.3%; background: var(--border);"></div></div>
+          <span class="bench-score" style="opacity: 0.5;" contenteditable="true">51.9</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name" contenteditable="true">GPT-5.2</span>
+          <div class="bench-track"><div class="bench-fill" style="--bw:75.4%; background: var(--border);"></div></div>
+          <span class="bench-score" style="opacity: 0.5;" contenteditable="true">50.0</span>
+        </div>
+        <p class="comp-note" style="color: #FF6900;">#3 全球 · 接近 Opus 4.6</p>
+      </div>
+    </div>
+
+    <div class="cap-chips reveal d4" style="margin-top: clamp(0.5rem, 1vw, 1rem);">
+      <span class="cap-chip" style="background: rgba(255,105,0,0.06); border-color: rgba(255,105,0,0.2); color: #FF6900;">1T+ / 42B active</span>
+      <span class="cap-chip" style="background: rgba(255,105,0,0.06); border-color: rgba(255,105,0,0.2); color: #FF6900;">Hybrid Attention 7:1</span>
+      <span class="cap-chip" style="background: rgba(255,105,0,0.06); border-color: rgba(255,105,0,0.2); color: #FF6900;">1M Context</span>
+      <span class="cap-chip" style="background: rgba(255,105,0,0.06); border-color: rgba(255,105,0,0.2); color: #FF6900;">MTP 加速</span>
+      <span class="cap-chip" style="background: rgba(255,105,0,0.06); border-color: rgba(255,105,0,0.2); color: #FF6900;">OpenClaw 原生</span>
+    </div>
+
+    <div class="insight-box reveal d5" style="margin-top: clamp(0.5rem, 1vw, 1rem); border-left-color: #FF6900;">
+      <div class="insight-eyebrow" style="color: #FF6900;">判断</div>
+      <div class="insight-text" contenteditable="true">专为真实 agentic 工作负载打造的旗舰基座，小米模型首次全面进入全球基模第一梯队</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 18 — XIAOMI MIMO-V2-PRO PRICING & EDGE
+     ============================================ -->
+<section class="slide visible" id="slide-18" aria-label="Xiaomi MiMo-V2-Pro pricing and competitive edge">
+  <div class="accent-stripe" style="background: #FF6900;"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">小米 MiMo-V2-Pro · 价格与竞争力</span>
+    <span class="slide-topbar-num">24 / 27</span>
+  </div>
+
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);" contenteditable="true">
+      成本不足 Claude 的 1/3，Coding 超越 Sonnet
+    </h2>
+    <p style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3em;" class="reveal d2">
+      API pricing · 五大 Agent 框架合作
+    </p>
+
+    <div class="two-col reveal d3" style="margin-top: clamp(0.6rem, 1.3vw, 1.3rem); align-items: start;">
+      <div style="display: flex; flex-direction: column; gap: clamp(0.5rem, 1vw, 1rem);">
+        <ul class="bullet-list">
+          <li contenteditable="true">内部深度评测：Coding 体验接近 <strong>Claude Opus 4.6</strong></li>
+          <li contenteditable="true">1M token 上下文支持高强度 Claw 工作流</li>
+          
+        </ul>
+
+        <div style="font-size: var(--micro-size); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-top: 0.2rem;">合作框架</div>
+        <div class="cap-chips" style="margin: 0;">
+          <span class="cap-chip" style="background: rgba(255,105,0,0.06); border-color: rgba(255,105,0,0.2); color: #FF6900;">OpenClaw</span>
+          <span class="cap-chip" style="background: rgba(255,105,0,0.06); border-color: rgba(255,105,0,0.2); color: #FF6900;">Cline</span>
+          <span class="cap-chip" style="background: rgba(255,105,0,0.06); border-color: rgba(255,105,0,0.2); color: #FF6900;">OpenCode</span>
+          <span class="cap-chip" style="background: rgba(255,105,0,0.06); border-color: rgba(255,105,0,0.2); color: #FF6900;">KiloCode</span>
+          <span class="cap-chip" style="background: rgba(255,105,0,0.06); border-color: rgba(255,105,0,0.2); color: #FF6900;">Blackbox</span>
+        </div>
+      </div>
+
+      <div class="reveal-scale" style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <div class="comp-board">
+          <div class="comp-header" style="grid-template-columns: 1.8fr 0.8fr 0.8fr 0.8fr;">
+            <div>模型</div>
+            <div>Input $/M</div>
+            <div>Output $/M</div>
+            <div>Context</div>
+          </div>
+          <div class="comp-row" style="grid-template-columns: 1.8fr 0.8fr 0.8fr 0.8fr; background: rgba(255,105,0,0.07);">
+            <div style="font-weight: 700; color: #FF6900;" contenteditable="true">MiMo-V2-Pro (≤256K)</div>
+            <div style="color: #FF6900; font-weight: 700;" contenteditable="true">$1</div>
+            <div style="color: #FF6900; font-weight: 700;" contenteditable="true">$3</div>
+            <div contenteditable="true">256K</div>
+          </div>
+          <div class="comp-row" style="grid-template-columns: 1.8fr 0.8fr 0.8fr 0.8fr; background: rgba(255,105,0,0.03);">
+            <div style="color: #FF6900;" contenteditable="true">MiMo-V2-Pro (≤1M)</div>
+            <div contenteditable="true">$2</div>
+            <div contenteditable="true">$6</div>
+            <div contenteditable="true">1M</div>
+          </div>
+          <div class="comp-row" style="grid-template-columns: 1.8fr 0.8fr 0.8fr 0.8fr;">
+            <div contenteditable="true">Claude Sonnet 4.6</div>
+            <div contenteditable="true">$3</div>
+            <div contenteditable="true">$15</div>
+            <div contenteditable="true">200K</div>
+          </div>
+          <div class="comp-row" style="grid-template-columns: 1.8fr 0.8fr 0.8fr 0.8fr;">
+            <div contenteditable="true">Claude Opus 4.6</div>
+            <div contenteditable="true">$5</div>
+            <div contenteditable="true">$25</div>
+            <div contenteditable="true">200K</div>
+          </div>
+        </div>
+        <p class="comp-note">Per million tokens · 数据截至 2026-03-18</p>
+      </div>
+    </div>
+
+    <div class="insight-box reveal d4" style="margin-top: clamp(0.5rem, 1vw, 1rem); border-left-color: #FF6900;">
+      <div class="insight-eyebrow" style="color: #FF6900;">关注点</div>
+      <div class="insight-text" contenteditable="true">Output 价格仅 $3/M，不到 Sonnet 的 1/5、Opus 的 1/8</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 19 — MIMO-V2-PRO: HUNTER ALPHA & CODING
+     ============================================ -->
+<section class="slide visible" id="slide-19" aria-label="MiMo-V2-Pro Hunter Alpha and coding capabilities">
+  <div class="accent-stripe" style="background: #FF6900;"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">MiMo-V2-Pro · Coding 实战</span>
+    <span class="slide-topbar-num">25 / 27</span>
+  </div>
+
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);" contenteditable="true">
+      Hunter Alpha 匿名霸榜 <span class="model-name model-mimo"></span>
+    </h2>
+    <p style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3em;" class="reveal d2">
+      OpenRouter 日榜连续第一 · 累计 &gt;1T tokens · Top 应用均为 Coding 工具
+    </p>
+
+    <!-- Timeline cards for narrative flow -->
+    <div class="ha-timeline reveal d3">
+      <div class="ha-step">
+        <div class="ha-step-num">01</div>
+        <div class="ha-step-desc" contenteditable="true">03-11 以代号 <strong>Hunter Alpha</strong> 匿名上线 OpenRouter，无品牌标识</div>
+      </div>
+      <div class="ha-arrow">→</div>
+      <div class="ha-step">
+        <div class="ha-step-num">02</div>
+        <div class="ha-step-desc" contenteditable="true">调用量持续增长，<strong>日榜连续多天第一</strong>，总用量突破 1T tokens</div>
+      </div>
+      <div class="ha-arrow">→</div>
+      <div class="ha-step">
+        <div class="ha-step-num">03</div>
+        <div class="ha-step-desc" contenteditable="true">Top 调用应用全部是 coding 工具，用户用脚投票验证了 coding 实力</div>
+      </div>
+      <div class="ha-arrow">→</div>
+      <div class="ha-step ha-reveal">
+        <div class="ha-step-num">揭晓</div>
+        <div class="ha-step-desc" contenteditable="true">03-18 揭晓身份：Hunter Alpha = MiMo-V2-Pro 早期内部构建版</div>
+      </div>
+    </div>
+
+    <div class="insight-box reveal d4" style="margin-top: clamp(0.6rem, 1.2vw, 1.2rem); border-left-color: #FF6900;">
+      <div class="insight-eyebrow" style="color: #FF6900;">Coding</div>
+      <div class="insight-text" contenteditable="true">Coding 能力超越 Claude Sonnet 4.6，SWE-bench Verified <strong>78.0</strong></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 20 — CHINA AGENT MODEL LANDSCAPE
+     ============================================ -->
+<!-- <section class="slide" id="slide-20" aria-label="China agent model landscape comparison"> -->
+  <div class="accent-stripe"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">中国 Agent 模型格局 · 横向对比</span>
+    <span class="slide-topbar-num">26 / 27</span>
+  </div>
+
+  <div class="slide-content" style="padding-top: clamp(0.4rem, 1vw, 1rem);">
+    <h2 class="slide-title reveal d1" style="margin-top: var(--element-gap);" contenteditable="true">
+      中国 Agent 模型全面分化——各占赛道，竞争走向垂直
+    </h2>
+    <p style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3em;" class="reveal d2">
+      2026 年 3 月 · MiMo / MiniMax / DeepSeek / Qwen / Kimi 五强格局
+    </p>
+
+    <div class="reveal d3" style="margin-top: clamp(0.6rem, 1.3vw, 1.3rem);">
+      <div class="comp-board">
+        <div class="comp-header" style="grid-template-columns: 1.2fr 1.5fr 0.8fr 0.7fr 0.7fr 0.7fr;">
+          <div>模型</div>
+          <div>核心定位</div>
+          <div>PinchBench</div>
+          <div>Context</div>
+          <div>Output $/M</div>
+          <div>开源</div>
+        </div>
+        <div class="comp-row" style="grid-template-columns: 1.2fr 1.5fr 0.8fr 0.7fr 0.7fr 0.7fr; background: rgba(255,105,0,0.07);">
+          <div style="font-weight: 700; color: #FF6900;" contenteditable="true">MiMo-V2-Pro</div>
+          <div style="font-size: 0.85em;" contenteditable="true">Agent Coding · Claw 旗舰</div>
+          <div style="color: #FF6900; font-weight: 700;" contenteditable="true">81.0</div>
+          <div contenteditable="true">1M</div>
+          <div style="color: #FF6900; font-weight: 700;" contenteditable="true">$3</div>
+          <div contenteditable="true">—</div>
+        </div>
+        <div class="comp-row" style="grid-template-columns: 1.2fr 1.5fr 0.8fr 0.7fr 0.7fr 0.7fr; background: rgba(43,108,176,0.07);">
+          <div style="font-weight: 700; color: var(--accent-2);" contenteditable="true">MiniMax M2.7</div>
+          <div style="font-size: 0.85em;" contenteditable="true">自迭代训练 · 办公 Agent</div>
+          <div style="color: var(--accent-2); font-weight: 700;" contenteditable="true">86.2</div>
+          <div contenteditable="true">205K</div>
+          <div contenteditable="true">$1.2</div>
+          <div contenteditable="true">✓</div>
+        </div>
+        <div class="comp-row" style="grid-template-columns: 1.2fr 1.5fr 0.8fr 0.7fr 0.7fr 0.7fr;">
+          <div style="font-weight: 600;" contenteditable="true">DeepSeek V4</div>
+          <div style="font-size: 0.85em;" contenteditable="true">数学 / 代码 / 通用推理</div>
+          <div contenteditable="true">—</div>
+          <div contenteditable="true">1M</div>
+          <div contenteditable="true">$0.7</div>
+          <div contenteditable="true">✓</div>
+        </div>
+        <div class="comp-row" style="grid-template-columns: 1.2fr 1.5fr 0.8fr 0.7fr 0.7fr 0.7fr;">
+          <div style="font-weight: 600;" contenteditable="true">Qwen 3.5-Max</div>
+          <div style="font-size: 0.85em;" contenteditable="true">多模态旗舰 · LMArena 中国 #1</div>
+          <div contenteditable="true">—</div>
+          <div contenteditable="true">128K</div>
+          <div contenteditable="true">$4</div>
+          <div contenteditable="true">✓</div>
+        </div>
+        <div class="comp-row" style="grid-template-columns: 1.2fr 1.5fr 0.8fr 0.7fr 0.7fr 0.7fr;">
+          <div style="font-weight: 600;" contenteditable="true">Kimi K2.5</div>
+          <div style="font-size: 0.85em;" contenteditable="true">超长上下文 · 代码</div>
+          <div contenteditable="true">—</div>
+          <div contenteditable="true">2M</div>
+          <div contenteditable="true">$1.5</div>
+          <div contenteditable="true">—</div>
+        </div>
+      </div>
+      <p class="comp-note">PinchBench = OpenClaw Agent 执行评测 · Output $/M = 每百万 output tokens · 数据截至 2026-03-18</p>
+    </div>
+
+    <div class="two-col reveal d4" style="margin-top: clamp(0.5rem, 1vw, 1rem); align-items: start;">
+      <ul class="bullet-list">
+        <li contenteditable="true"><strong style="color: #FF6900;">MiMo-V2-Pro</strong>：1M 上下文 + Coding 逼近 Opus = <strong>最强 Claw 底座</strong>，但价格偏高（Output $3）</li>
+        <li contenteditable="true"><strong style="color: var(--accent-2);">MiniMax M2.7</strong>：PinchBench 86.2 排名更高，MM Claw 62.7% 接近 Sonnet，<strong>性价比极佳</strong>（Output $1.2）</li>
+      </ul>
+      <ul class="bullet-list">
+        <li contenteditable="true"><strong>DeepSeek V4</strong>：尚未发布 Agent 评测，但通用推理+代码极强，<strong>价格最低</strong></li>
+        <li contenteditable="true">中国 AI 模型在 OpenRouter token 消耗已占 <strong>61%</strong>——全球开发者正在用脚投票</li>
+      </ul>
+    </div>
+
+    <div class="insight-box reveal d5" style="margin-top: clamp(0.5rem, 1vw, 1rem);">
+      <div class="insight-eyebrow">格局判断</div>
+      <div class="insight-text" contenteditable="true">中国 Agent 模型已从「通用内卷」走向「垂直占位」。MiMo 占 Claw 旗舰，MiniMax 占性价比 Agent，DeepSeek 占开源推理——三条路线都在挑战 Anthropic / OpenAI 的定价权</div>
+    </div>
+  </div>
+
+
+<!-- ============================================
+     SLIDE 25 — SUMMARY
+     ============================================ -->
+<section class="slide visible" id="slide-summary" aria-label="Summary and takeaways">
+  <div class="accent-stripe"></div>
+  <div class="slide-topbar">
+    <span class="slide-topbar-label">Summary</span>
+    <span class="slide-topbar-num">27 / 27</span>
+  </div>
+
+  <div class="slide-content">
+    <div class="opener-inner" style="max-width: 820px;">
+      <hr class="rule-accent reveal d1" style="margin: 0 0 clamp(0.4rem, 1vw, 0.8rem) 0;">
+      <h2 class="opener-h reveal d2" style="font-size: clamp(1.3rem, 3.5vw, 2.8rem);" contenteditable="true">三月核心信号</h2>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.6rem, 1.5vw, 1.5rem); margin-top: clamp(0.8rem, 1.8vw, 1.8rem);">
+        <div class="mm-card reveal d3">
+          <div class="mm-title"><span class="mm-dot" style="background: var(--accent);"></span>底层架构仍有创新空间</div>
+          <div class="mm-body" contenteditable="true">Kimi AttnRes：残差连接这一最基础组件仍有 25% 效率提升，意味着数千万美元级成本节约</div>
+        </div>
+        <div class="mm-card reveal d3">
+          <div class="mm-title"><span class="mm-dot" style="background: var(--accent-2);"></span>Agent 能力走向模型原生</div>
+          <div class="mm-body" contenteditable="true">Grok 内置 multi-agent · MiniMax 模型自进化 · MiroThinker 验证式推理——harness 正在被内化</div>
+        </div>
+        <div class="mm-card reveal d4">
+          <div class="mm-title"><span class="mm-dot" style="background: #10A37F;"></span>小模型成为核心生产力</div>
+          <div class="mm-body" contenteditable="true">GPT-5.4 mini 多项逼近满血版，分层调度「大脑 + 执行团队」成行业共识</div>
+        </div>
+        <div class="mm-card reveal d4">
+          <div class="mm-title"><span class="mm-dot" style="background: #FF6900;"></span>中国模型进入全球 Agent 第一梯队</div>
+          <div class="mm-body" contenteditable="true">MiMo 占 Claw 旗舰 · MiniMax 占性价比 Agent · DeepSeek 占开源推理——定价权之争开启</div>
+        </div>
+      </div>
+
+      <div class="insight-box reveal d5" style="margin-top: clamp(0.8rem, 1.5vw, 1.5rem); text-align: center;">
+        <div class="insight-text" style="font-size: var(--body-size);" contenteditable="true">谢谢大家 · Q&amp;A</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+/* ===========================================
+   SLIDE PRESENTATION CONTROLLER
+   Keyboard nav, touch, wheel, progress, dots
+   =========================================== */
+class SlidePresentation {
+  constructor() {
+    this.slides = Array.from(document.querySelectorAll('.slide'));
+    this.currentSlide = 0;
+    this.init();
+  }
+
+  init() {
+    this.setupObserver();
+    this.setupKeyboard();
+    this.setupWheel();
+    this.setupTouch();
+    this.setupProgressBar();
+    this.setupNavDots();
+  }
+
+  goTo(idx) {
+    const clamped = Math.max(0, Math.min(idx, this.slides.length - 1));
+    this.slides[clamped].scrollIntoView({ behavior: 'smooth' });
+  }
+
+  /* Intersection Observer: adds .visible class to animate slides */
+  setupObserver() {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          this.currentSlide = this.slides.indexOf(entry.target);
+          this.updateProgress();
+          this.updateDots();
+        }
+      });
+    }, { threshold: 0.5 });
+    this.slides.forEach(s => obs.observe(s));
+  }
+
+  setupKeyboard() {
+    document.addEventListener('keydown', (e) => {
+      /* Skip when user is typing inside an editable element */
+      if (e.target.getAttribute('contenteditable') === 'true') return;
+      const map = {
+        'ArrowDown': 1, 'ArrowRight': 1, ' ': 1, 'PageDown': 1,
+        'ArrowUp': -1, 'ArrowLeft': -1, 'PageUp': -1
+      };
+      if (e.key in map) {
+        e.preventDefault();
+        this.goTo(this.currentSlide + map[e.key]);
+      }
+      if (e.key === 'Home') { e.preventDefault(); this.goTo(0); }
+      if (e.key === 'End')  { e.preventDefault(); this.goTo(this.slides.length - 1); }
+    });
+  }
+
+  setupWheel() {
+    let last = 0;
+    window.addEventListener('wheel', (e) => {
+      const now = Date.now();
+      if (now - last < 900) return;
+      last = now;
+      if (e.deltaY > 40)       this.goTo(this.currentSlide + 1);
+      else if (e.deltaY < -40) this.goTo(this.currentSlide - 1);
+    }, { passive: true });
+  }
+
+  setupTouch() {
+    let startY = 0;
+    document.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
+    document.addEventListener('touchend', e => {
+      const diff = startY - e.changedTouches[0].clientY;
+      if (Math.abs(diff) > 60) this.goTo(this.currentSlide + (diff > 0 ? 1 : -1));
+    }, { passive: true });
+  }
+
+  setupProgressBar() {
+    this.bar = document.getElementById('progressBar');
+    this.updateProgress();
+  }
+
+  updateProgress() {
+    if (this.bar) {
+      this.bar.style.width = ((this.currentSlide + 1) / this.slides.length * 100) + '%';
+    }
+  }
+
+  setupNavDots() {
+    const nav = document.getElementById('navDots');
+    if (!nav) return;
+    this.slides.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      d.addEventListener('click', () => this.goTo(i));
+      nav.appendChild(d);
+    });
+  }
+
+  updateDots() {
+    document.querySelectorAll('.nav-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === this.currentSlide);
+    });
+  }
+}
+
+const presentation = new SlidePresentation();
+
+
+/* ===========================================
+   INLINE EDITOR
+   Toggle via hotzone hover, E key, or button click
+   =========================================== */
+class InlineEditor {
+  constructor() {
+    this.isActive = false;
+    this.storageKey = 'march-ai-update-edits';
+    this.toggle = document.getElementById('editToggle');
+    this.hotzone = document.getElementById('editHotzone');
+    this.hideTimeout = null;
+    this.setupHotzone();
+    this.setupKeyboard();
+    this.setupButton();
+    this.loadSaved();
+    this.setupAutosave();
+  }
+
+  /* Toggle edit mode on/off */
+  toggleEditMode() {
+    this.isActive = !this.isActive;
+    document.body.classList.toggle('edit-mode', this.isActive);
+    this.toggle.textContent = this.isActive ? '✓ Done' : '✏ Edit';
+    this.toggle.classList.toggle('active', this.isActive);
+    if (this.isActive) {
+      this.toggle.classList.add('show');
+      /* Activate all explicitly-marked editable elements */
+      document.querySelectorAll('[contenteditable]').forEach(el => {
+        el.setAttribute('contenteditable', 'true');
+      });
+    } else {
+      this.saveAll();
+    }
+  }
+
+  /* Hotzone hover (top-left corner) reveals button */
+  setupHotzone() {
+    const show = () => { clearTimeout(this.hideTimeout); this.toggle.classList.add('show'); };
+    const hide = () => {
+      this.hideTimeout = setTimeout(() => {
+        if (!this.isActive) this.toggle.classList.remove('show');
+      }, 400);
+    };
+    this.hotzone.addEventListener('mouseenter', show);
+    this.hotzone.addEventListener('mouseleave', hide);
+    this.hotzone.addEventListener('click', () => this.toggleEditMode());
+    this.toggle.addEventListener('mouseenter', show);
+    this.toggle.addEventListener('mouseleave', hide);
+  }
+
+  setupButton() {
+    this.toggle.addEventListener('click', () => this.toggleEditMode());
+  }
+
+  setupKeyboard() {
+    document.addEventListener('keydown', (e) => {
+      if ((e.key === 'e' || e.key === 'E') && !e.target.getAttribute('contenteditable')) {
+        this.toggleEditMode();
+      }
+      /* Ctrl+S / Cmd+S saves while in edit mode */
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        if (this.isActive) this.saveAll();
+      }
+    });
+  }
+
+  /* Save all editable content to localStorage */
+  saveAll() {
+    const data = {};
+    document.querySelectorAll('[contenteditable]').forEach((el, i) => {
+      data[i] = el.innerHTML;
+    });
+    localStorage.setItem(this.storageKey, JSON.stringify(data));
+  }
+
+  /* Load saved content on startup */
+  loadSaved() {
+    const saved = localStorage.getItem(this.storageKey);
+    if (!saved) return;
+    try {
+      const data = JSON.parse(saved);
+      document.querySelectorAll('[contenteditable]').forEach((el, i) => {
+        if (data[i] !== undefined) el.innerHTML = data[i];
+      });
+    } catch(e) { /* ignore */ }
+  }
+
+  /* Auto-save every 30 seconds while editing */
+  setupAutosave() {
+    setInterval(() => { if (this.isActive) this.saveAll(); }, 30000);
+  }
+}
+
+const editor = new InlineEditor();
+</script>
+
+
+</body></html>
