@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<!-- saved from url=(0066)file:///Users/bill/Desktop/miaosen-slides/april-ai-update-new.html -->
+<html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mythos 横空出世 — AI Weekly April 2026</title>
+<link href="file:///Users/bill/Desktop/miaosen-slides/Mythos%20%E6%A8%AA%E7%A9%BA%E5%87%BA%E4%B8%96%20%E2%80%94%20AI%20Weekly%20April%202026_files/css2" rel="stylesheet">
+<style>
+/* === ROOT THEME === */
+:root {
+  --bg-outer: #2c2c2c;
+  --bg-page: #f8f6f1;
+  --bg-warm: #f2f0eb;
+  --text-primary: #1a1a1a;
+  --text-secondary: #5a5a5a;
+  --text-muted: #999;
+  --tab-mint: #98d4bb;
+  --tab-lavender: #c7b8ea;
+  --tab-sky: #a8d8ea;
+  --accent: #c41e3a;
+  --accent-light: rgba(196,30,58,0.07);
+  --rule-color: #ddd8d0;
+  --title-size: clamp(1.6rem,4.2vw,3.6rem);
+  --h2-size: clamp(1.05rem,2.4vw,1.9rem);
+  --body-size: clamp(0.68rem,1.12vw,0.9rem);
+  --small-size: clamp(0.58rem,0.86vw,0.73rem);
+  --slide-pad: clamp(1.2rem,3vw,2.8rem);
+  --gap: clamp(0.6rem,1.6vh,1.4rem);
+  --ease: cubic-bezier(0.16,1,0.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+
+/* === VIEWPORT BASE === */
+html,body{height:100%;overflow-x:hidden;}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth;}
+.slide{width:100vw;height:100vh;height:100dvh;overflow:hidden;scroll-snap-align:start;display:flex;flex-direction:column;position:relative;}
+@media(max-height:700px){:root{--slide-pad:clamp(0.8rem,2.5vw,2rem);--gap:clamp(0.45rem,1.1vh,1rem);--title-size:clamp(1.3rem,3.8vw,2.6rem);--h2-size:clamp(0.95rem,2.1vw,1.6rem);}}
+@media(max-height:600px){:root{--title-size:clamp(1.1rem,3.2vw,2rem);--body-size:clamp(0.6rem,0.95vw,0.8rem);}.nav-dots{display:none;}}
+@media(max-height:500px){:root{--title-size:clamp(1rem,2.8vw,1.6rem);--h2-size:clamp(0.88rem,1.85vw,1.3rem);}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.2s!important;}html{scroll-behavior:auto;}}
+
+/* === SLIDE SHELL === */
+.slide{background:var(--bg-outer);align-items:center;justify-content:center;}
+
+/* === PAPER CARD === */
+.paper{background:var(--bg-page);width:min(96vw,1200px);height:min(94vh,760px);border-radius:3px;box-shadow:0 12px 50px rgba(0,0,0,.42),0 2px 8px rgba(0,0,0,.22);display:flex;position:relative;overflow:visible;}
+
+/* === BINDER HOLES === */
+.holes{width:clamp(1.8rem,3vw,3.2rem);background:var(--bg-warm);border-right:1px solid var(--rule-color);display:flex;flex-direction:column;justify-content:space-evenly;align-items:center;padding:2.5rem 0;flex-shrink:0;border-radius:3px 0 0 3px;}
+.hole{width:clamp(9px,1.3vw,15px);height:clamp(9px,1.3vw,15px);border-radius:50%;background:var(--bg-outer);box-shadow:inset 0 1px 4px rgba(0,0,0,.45);}
+
+/* === PAPER CONTENT === */
+.paper-content{flex:1;padding:var(--slide-pad);display:flex;flex-direction:column;justify-content:center;overflow:hidden;position:relative;}
+
+/* === TABS === */
+.tabs{position:absolute;right:calc(-1 * clamp(2rem,3.2vw,3.6rem));top:0;bottom:0;width:clamp(2rem,3.2vw,3.6rem);display:flex;flex-direction:column;justify-content:center;gap:5px;padding:1.8rem 0;}
+.tab{border-radius:0 4px 4px 0;display:flex;align-items:center;justify-content:center;transition:opacity .3s;}
+.tab-text{writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);font-family:'DM Sans',sans-serif;font-size:clamp(.44rem,.68vw,.58rem);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(0,0,0,.38);white-space:nowrap;}
+.tab.t1{background:var(--tab-mint);height:clamp(3.5rem,7vh,7rem);}
+.tab.t2{background:var(--tab-lavender);height:clamp(3.5rem,7vh,7rem);}
+.tab.t3{background:var(--tab-sky);height:clamp(3.5rem,7vh,7rem);}
+.tab:not(.active){opacity:.35;}
+.tab.active{opacity:1;}
+.tab.active .tab-text{color:rgba(0,0,0,.72);}
+
+/* === TYPOGRAPHY === */
+.section-tag{font-family:'DM Sans',sans-serif;font-size:var(--small-size);font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:calc(var(--gap) * 0.6);}
+.section-tag .acc{color:var(--accent);}
+.slide-title{font-family:'Bodoni Moda',serif;font-size:var(--title-size);font-weight:700;color:var(--text-primary);line-height:1.05;letter-spacing:-.01em;}
+.slide-title em,.slide-h2 em{font-style:normal;}
+.slide-h2{font-family:'Bodoni Moda',serif;font-size:var(--h2-size);font-weight:700;color:var(--text-primary);line-height:1.1;margin-bottom:var(--gap);}
+.rule{width:clamp(1.8rem,3.5vw,3.5rem);height:2px;background:var(--text-primary);margin:var(--gap) 0;flex-shrink:0;}
+.rule.red{background:var(--accent);}
+.body-text{font-family:'DM Sans',sans-serif;font-size:var(--body-size);color:var(--text-secondary);line-height:1.65;}
+.body-text strong{color:var(--text-primary);}
+
+/* === BULLET LIST === */
+.blist{list-style:none;display:flex;flex-direction:column;gap:clamp(.38rem,1vh,.8rem);}
+.blist li{font-family:'DM Sans',sans-serif;font-size:var(--body-size);color:var(--text-secondary);line-height:1.48;padding-left:1.1em;position:relative;}
+.blist li::before{content:'—';position:absolute;left:0;color:var(--accent);font-weight:600;}
+.blist li strong{color:var(--text-primary);font-weight:600;}
+
+/* === INSIGHT === */
+.insight{padding:clamp(.42rem,.95vh,.8rem) clamp(.65rem,1.35vw,1.05rem);background:var(--accent-light);border-left:3px solid var(--accent);border-radius:0 3px 3px 0;flex-shrink:0;margin-top:var(--gap);}
+.insight p{font-family:'DM Sans',sans-serif;font-size:var(--small-size);color:var(--text-primary);line-height:1.55;}
+.insight strong{color:var(--accent);}
+
+/* === BLOCKQUOTE === */
+.bq{border-left:3px solid var(--rule-color);padding-left:clamp(.65rem,1.25vw,1.05rem);margin:var(--gap) 0;flex-shrink:0;}
+.bq p{font-family:'Bodoni Moda',serif;font-style:italic;font-size:clamp(.65rem,1vw,.84rem);color:var(--text-secondary);line-height:1.6;}
+.bq cite{display:block;margin-top:.3em;font-family:'DM Sans',sans-serif;font-size:var(--small-size);color:var(--text-muted);font-style:normal;}
+
+/* === STATS === */
+.stats{display:flex;gap:clamp(.7rem,1.8vw,2rem);flex-wrap:wrap;margin:var(--gap) 0;}
+.stat-num{font-family:'Bodoni Moda',serif;font-size:clamp(1.2rem,3vw,2.4rem);font-weight:700;color:var(--text-primary);line-height:1;}
+.stat-num.red{color:var(--accent);}
+.stat-label{font-family:'DM Sans',sans-serif;font-size:var(--small-size);color:var(--text-muted);margin-top:.18em;}
+
+/* === TABLE === */
+.dtable{width:100%;border-collapse:collapse;font-family:'DM Sans',sans-serif;font-size:var(--body-size);}
+.dtable th{text-align:left;font-weight:600;font-size:var(--small-size);color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;padding:.36em .52em;border-bottom:2px solid var(--rule-color);}
+.dtable td{padding:.38em .52em;color:var(--text-secondary);border-bottom:1px solid var(--rule-color);line-height:1.38;}
+.dtable td strong{color:var(--text-primary);font-weight:600;}
+.dtable .num{text-align:right;font-variant-numeric:tabular-nums;color:var(--text-primary);font-weight:500;}
+.dtable tr.hl td{background:var(--accent-light);color:var(--text-primary);font-weight:600;}
+.dtable tr.hl .num{color:var(--accent);}
+.dtable tr.r1 td{color:var(--accent);font-weight:700;}
+
+/* === TWO-COL === */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.7rem,1.8vw,1.8rem);}
+
+/* === DUAL TRACK (Gemma) === */
+.dual-track{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule-color);border-radius:3px;overflow:hidden;flex-shrink:0;}
+.dual-col{padding:clamp(.5rem,1.1vw,.85rem);}
+.dual-col:first-child{border-right:1px solid var(--rule-color);}
+.dual-col:last-child{background:var(--bg-warm);}
+.dual-title{font-family:'Bodoni Moda',serif;font-weight:700;font-size:clamp(.7rem,1.05vw,.88rem);color:var(--text-primary);margin-bottom:.4em;padding-bottom:.32em;border-bottom:1px solid var(--rule-color);}
+.dual-list{list-style:none;display:flex;flex-direction:column;gap:.28em;}
+.dual-list li{font-family:'DM Sans',sans-serif;font-size:var(--small-size);color:var(--text-secondary);line-height:1.42;padding-left:.82em;position:relative;}
+.dual-list li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:.68em;top:.14em;}
+
+/* === SECTION BREAK SLIDE === */
+.section-break .paper-content{justify-content:center;}
+.part-num{font-family:'Bodoni Moda',serif;font-size:clamp(4rem,10vw,9rem);font-weight:900;color:var(--text-primary);opacity:.06;line-height:1;position:absolute;right:var(--slide-pad);bottom:var(--slide-pad);}
+.part-label{font-family:'DM Sans',sans-serif;font-size:var(--small-size);font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:clamp(.5rem,1.5vh,1.2rem);}
+.part-title{font-family:'Bodoni Moda',serif;font-size:clamp(1.4rem,3.5vw,3rem);font-weight:700;color:var(--text-primary);line-height:1.1;max-width:80%;}
+.part-title em{font-style:normal;color:var(--text-secondary);}
+
+/* === EVENT CARDS === */
+.event-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.4rem,1.1vw,.9rem);margin:var(--gap) 0;}
+.event-card{background:var(--bg-warm);border-radius:3px;padding:clamp(.45rem,1vw,.8rem);border-top:3px solid var(--accent);}
+.event-num{font-family:'Bodoni Moda',serif;font-size:clamp(.85rem,1.7vw,1.4rem);font-weight:700;color:var(--accent);line-height:1;margin-bottom:.28em;}
+.event-card p{font-family:'DM Sans',sans-serif;font-size:var(--small-size);color:var(--text-secondary);line-height:1.42;}
+.event-card p strong{color:var(--text-primary);}
+
+/* === OBSERVATION BLOCKS === */
+.obs-block{display:flex;flex-direction:column;gap:clamp(.4rem,1.2vh,.85rem);}
+.obs-item{display:flex;gap:clamp(.6rem,1.1vw,.95rem);align-items:flex-start;}
+.obs-num{font-family:'Bodoni Moda',serif;font-size:clamp(1.05rem,2.2vw,1.8rem);font-weight:700;color:var(--accent);line-height:1;flex-shrink:0;min-width:2ch;}
+.obs-text{font-family:'DM Sans',sans-serif;font-size:var(--body-size);color:var(--text-secondary);line-height:1.53;}
+.obs-text strong{color:var(--text-primary);font-weight:600;}
+
+/* === CHIPS === */
+.chips{display:flex;gap:clamp(.35rem,.9vw,.8rem);flex-wrap:wrap;margin:var(--gap) 0;}
+.chip{font-family:'DM Sans',sans-serif;font-size:var(--small-size);font-weight:500;padding:.26em .8em;background:var(--bg-warm);border-radius:100px;border:1px solid var(--rule-color);color:var(--text-secondary);}
+
+/* === LEGEND === */
+.legend{display:flex;gap:clamp(.6rem,1.6vw,1.4rem);flex-wrap:wrap;margin-top:var(--gap);}
+.leg-item{display:flex;align-items:center;gap:.38em;font-family:'DM Sans',sans-serif;font-size:var(--small-size);color:var(--text-secondary);}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* === SCATTER === */
+.scatter-wrap{flex:1;min-height:0;padding:.4rem 2.8rem 1.7rem 3rem;position:relative;}
+.scatter{position:relative;width:100%;height:100%;border-left:2px solid var(--rule-color);border-bottom:2px solid var(--rule-color);}
+.s-dot{position:absolute;width:clamp(9px,1.25vw,13px);height:clamp(9px,1.25vw,13px);border-radius:50%;transform:translate(-50%,50%);}
+.s-dot.red{background:var(--accent);}
+.s-dot.gray{background:#a0a0a0;}
+.s-dot.blue{background:#4a8fd0;}
+.s-lbl{position:absolute;font-family:'DM Sans',sans-serif;font-size:clamp(.44rem,.7vw,.6rem);transform:translateX(-50%);white-space:nowrap;line-height:1.2;}
+.s-ax-y{position:absolute;left:-2.5rem;top:50%;transform:translateY(-50%) rotate(-90deg);font-family:'DM Sans',sans-serif;font-size:var(--small-size);color:var(--text-muted);white-space:nowrap;}
+.s-ax-x{position:absolute;bottom:-1.4rem;left:50%;transform:translateX(-50%);font-family:'DM Sans',sans-serif;font-size:var(--small-size);color:var(--text-muted);white-space:nowrap;}
+.s-tick{position:absolute;bottom:-1.15rem;font-family:'DM Sans',sans-serif;font-size:clamp(.42rem,.65vw,.56rem);color:var(--text-muted);transform:translateX(-50%);}
+
+/* === PRICE BOX === */
+.price-box{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.6rem,1.5vw,1.2rem);margin:var(--gap) 0;}
+.price-col{background:var(--bg-warm);border-radius:3px;padding:clamp(.5rem,1.1vw,.85rem);}
+.price-col.alert{background:var(--accent-light);border:1px solid rgba(196,30,58,.2);}
+.price-col-title{font-family:'DM Sans',sans-serif;font-size:var(--small-size);font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.4em;}
+.price-col-title.red{color:var(--accent);}
+.price-val{font-family:'Bodoni Moda',serif;font-size:clamp(1rem,2vw,1.7rem);font-weight:700;color:var(--text-primary);line-height:1.1;margin-bottom:.25em;}
+.price-val .red{color:var(--accent);}
+.price-note{font-family:'DM Sans',sans-serif;font-size:var(--small-size);color:var(--text-secondary);line-height:1.4;}
+
+/* === REVEAL === */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease),transform .5s var(--ease);}
+.slide.visible .reveal{opacity:1;transform:translateY(0);}
+.slide.visible .reveal:nth-child(1){transition-delay:.07s;}
+.slide.visible .reveal:nth-child(2){transition-delay:.14s;}
+.slide.visible .reveal:nth-child(3){transition-delay:.21s;}
+.slide.visible .reveal:nth-child(4){transition-delay:.28s;}
+.slide.visible .reveal:nth-child(5){transition-delay:.35s;}
+.slide.visible .reveal:nth-child(6){transition-delay:.42s;}
+.slide.visible .reveal:nth-child(7){transition-delay:.49s;}
+.paper-enter{opacity:0;transform:translateY(8px) scale(.997);transition:opacity .45s var(--ease),transform .45s var(--ease);}
+.slide.visible .paper-enter{opacity:1;transform:translateY(0) scale(1);}
+
+/* === PROGRESS BAR === */
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:1001;transition:width .3s ease;width:0;}
+
+/* === NAV DOTS === */
+.nav-dots{position:fixed;right:clamp(.5rem,1.2vw,1rem);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:clamp(4px,.65vh,6px);z-index:1000;}
+.nav-dot{width:clamp(4px,.6vw,6px);height:clamp(4px,.6vw,6px);border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;border:none;padding:0;transition:background .3s,transform .3s;}
+.nav-dot.active{background:rgba(255,255,255,.85);transform:scale(1.4);}
+
+/* === SLIDE COUNTER === */
+.slide-counter{position:fixed;bottom:clamp(.7rem,1.8vh,1.3rem);right:clamp(.8rem,2vw,1.8rem);font-family:'DM Sans',sans-serif;font-size:var(--small-size);color:rgba(255,255,255,.3);z-index:1000;letter-spacing:.06em;}
+
+/* === INLINE EDIT === */
+.edit-hotzone{position:fixed;top:0;left:0;width:80px;height:80px;z-index:10000;cursor:pointer;}
+.edit-toggle{position:fixed;top:.9rem;left:.9rem;background:var(--bg-page);border:1px solid var(--rule-color);border-radius:3px;padding:.28rem .62rem;font-family:'DM Sans',sans-serif;font-size:.68rem;cursor:pointer;z-index:10001;opacity:0;pointer-events:none;transition:opacity .25s;color:var(--text-secondary);}
+.edit-toggle.show,.edit-toggle.active{opacity:1;pointer-events:auto;}
+.edit-toggle.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+[contenteditable="true"]{outline:2px dashed rgba(196,30,58,.35);outline-offset:2px;border-radius:2px;}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar" style="width: 72.2222%;"></div>
+<nav class="nav-dots" id="navDots" aria-label="Slide navigation"><button class="nav-dot" aria-label="幻灯片 1"></button><button class="nav-dot" aria-label="幻灯片 2"></button><button class="nav-dot" aria-label="幻灯片 3"></button><button class="nav-dot" aria-label="幻灯片 4"></button><button class="nav-dot" aria-label="幻灯片 5"></button><button class="nav-dot" aria-label="幻灯片 6"></button><button class="nav-dot" aria-label="幻灯片 7"></button><button class="nav-dot" aria-label="幻灯片 8"></button><button class="nav-dot" aria-label="幻灯片 9"></button><button class="nav-dot" aria-label="幻灯片 10"></button><button class="nav-dot" aria-label="幻灯片 11"></button><button class="nav-dot" aria-label="幻灯片 12"></button><button class="nav-dot active" aria-label="幻灯片 13"></button><button class="nav-dot" aria-label="幻灯片 14"></button><button class="nav-dot" aria-label="幻灯片 15"></button><button class="nav-dot" aria-label="幻灯片 16"></button><button class="nav-dot" aria-label="幻灯片 17"></button><button class="nav-dot" aria-label="幻灯片 1"></button><button class="nav-dot" aria-label="幻灯片 2"></button><button class="nav-dot" aria-label="幻灯片 3"></button><button class="nav-dot" aria-label="幻灯片 4"></button><button class="nav-dot" aria-label="幻灯片 5"></button><button class="nav-dot" aria-label="幻灯片 6"></button><button class="nav-dot" aria-label="幻灯片 7"></button><button class="nav-dot" aria-label="幻灯片 8"></button><button class="nav-dot" aria-label="幻灯片 9"></button><button class="nav-dot" aria-label="幻灯片 10"></button><button class="nav-dot" aria-label="幻灯片 11"></button><button class="nav-dot" aria-label="幻灯片 12"></button><button class="nav-dot" aria-label="幻灯片 13"></button><button class="nav-dot" aria-label="幻灯片 14"></button><button class="nav-dot" aria-label="幻灯片 15"></button><button class="nav-dot" aria-label="幻灯片 16"></button><button class="nav-dot" aria-label="幻灯片 17"></button><button class="nav-dot" aria-label="幻灯片 1"></button><button class="nav-dot" aria-label="幻灯片 2"></button><button class="nav-dot" aria-label="幻灯片 3"></button><button class="nav-dot" aria-label="幻灯片 4"></button><button class="nav-dot" aria-label="幻灯片 5"></button><button class="nav-dot" aria-label="幻灯片 6"></button><button class="nav-dot" aria-label="幻灯片 7"></button><button class="nav-dot" aria-label="幻灯片 8"></button><button class="nav-dot" aria-label="幻灯片 9"></button><button class="nav-dot" aria-label="幻灯片 10"></button><button class="nav-dot" aria-label="幻灯片 11"></button><button class="nav-dot" aria-label="幻灯片 12"></button><button class="nav-dot" aria-label="幻灯片 13"></button><button class="nav-dot" aria-label="幻灯片 14"></button><button class="nav-dot" aria-label="幻灯片 15"></button><button class="nav-dot" aria-label="幻灯片 16"></button><button class="nav-dot" aria-label="幻灯片 17"></button><button class="nav-dot" aria-label="幻灯片 18"></button></nav>
+<div class="slide-counter" id="slideCounter">13 / 18</div>
+<div class="edit-hotzone" id="editHotzone"></div>
+<button class="edit-toggle" id="editToggle">✏ 编辑</button>
+
+<!-- ============================
+     01 — COVER
+     ============================ -->
+<section class="slide visible" data-tab="1">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content">
+      <div class="section-tag reveal">AI Weekly · <span class="acc">April Week 3</span> · 2026</div>
+      <div class="slide-title reveal">Mythos<br><em>横空出世</em></div>
+      <div class="rule reveal"></div>
+      <div class="body-text reveal" style="font-style:italic;color:var(--text-secondary)">Claude Mythos · Claude Opus 4.7 · Meta Muse Spark · Google Gemma 4</div>
+      <div class="reveal" style="margin-top:clamp(.7rem,2.5vh,1.8rem);font-family:&#39;Bodoni Moda&#39;,serif;font-size:var(---size);color:var(--text-muted)">Miaosen Chai</div>
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     02 — SECTION: PART 1
+     ============================ -->
+<section class="slide section-break visible" data-tab="1">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content">
+      <div class="part-label reveal">Part 1</div>
+      <div class="part-title reveal">Claude Mythos：<em>天使和魔鬼</em></div>
+      <div class="rule red reveal" style="margin-top:clamp(.8rem,2.5vh,2rem)"></div>
+      <div class="body-text reveal" style="color:var(--text-muted);margin-top:0">全线屠榜 · 网络安全能力 · 对齐悖论 · Project Glasswing</div>
+      <div class="part-num">01</div>
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     03 — MYTHOS BENCHMARKS
+     ============================ -->
+<section class="slide visible" data-tab="1">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content">
+      <div class="section-tag reveal"><span class="acc">03</span></div>
+      <div class="slide-h2 reveal">Claude Mythos: 全线屠榜，但<em>暂缓访问</em></div>
+      <div class="rule red reveal"></div>
+      <table class="dtable reveal">
+        <thead><tr><th>评测</th><th>Mythos</th><th class="num">Opus 4.6</th><th class="num">GPT-5.4</th></tr></thead>
+        <tbody>
+          <tr><td><strong>SWE-bench Verified</strong></td><td class="num" style="color:var(--accent);font-weight:700">93.9%</td><td class="num">80.8%</td><td class="num">77.3%</td></tr>
+          <tr><td><strong>SWE-bench Pro</strong></td><td class="num" style="color:var(--accent);font-weight:700">77.8%</td><td class="num">53.4%</td><td class="num">57.7%</td></tr>
+          <tr><td><strong>USAMO 2026</strong></td><td class="num" style="color:var(--accent);font-weight:700">97.6%</td><td class="num">42.3%</td><td class="num">95.2%</td></tr>
+          <tr><td><strong>HLE（带工具）</strong></td><td class="num" style="color:var(--accent);font-weight:700">64.7%</td><td class="num">53.1%</td><td class="num">58.7%</td></tr>
+        </tbody>
+      </table>
+      <div class="body-text reveal" style="margin-top:var(--gap)"><strong>$25/$125 per MTok</strong>（Opus 4.6 的 5 倍）</div>
+      <div class="insight reveal"><p>Mythos 是目前公开测试中最强的，且具有代际差距的编程和推理模型</p></div>
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     04 — 网络安全
+     ============================ -->
+<section class="slide visible" data-tab="1">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content">
+      <div class="section-tag reveal"><span class="acc">04</span></div>
+      <div class="slide-h2 reveal">网络安全能力 &amp; 风险?<em></em></div>
+      <div class="rule red reveal"></div>
+      <div class="stats reveal">
+        <div><div class="stat-num">2</div><div class="stat-label">Opus 4.6 成功次数（Firefox 漏洞）</div></div>
+        <div><div class="stat-num red">181</div><div class="stat-label">Mythos 成功次数</div></div>
+        <div></div>
+      </div>
+      <ul class="blist reveal">
+        <li><strong>CTF 全球顶级黑客竞赛：</strong>Mythos 35 题全部解出，每题 10 次内必中；Opus 4.6 无法全过</li>
+        <li><strong>成本对比：</strong>高级渗透测试工程师完成同等工作需要一周薪水 ≈ Mythos 不到 $1,000</li>
+        <li><strong>AISI 独立评估：</strong>Mythos 网络攻击能力已超越专业人类水平（英国 AI 安全研究所）</li>
+      </ul>
+      <div class="insight reveal"><p>不是纯粹的 benchmark 跑分，量化了的<strong>真实威胁升级</strong>。发动网络攻击的门槛出现数量级下降。</p></div>
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     05 — 对齐悖论
+     ============================ -->
+<section class="slide visible" data-tab="1">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content">
+      <div class="section-tag reveal"><span class="acc">05</span></div>
+      <div class="slide-h2 reveal">对齐悖论：「最对齐」同时是<em>「对齐风险最高的模型」</em></div>
+      
+      <div class="event-grid reveal">
+        <div class="event-card"><div class="event-num">01</div><p><strong>识别测试意图</strong>，故意低分以隐藏实力</p></div>
+        <div class="event-card"><div class="event-num">02</div><p>违规后<strong>主动清理日志</strong>，防止被发现</p></div>
+        <div class="event-card"><div class="event-num">03</div><p>逃出沙盒，给正在公园<strong>吃三明治的研究员发了一封邮件</strong></p></div>
+      </div>
+      <ul class="blist reveal">
+        <li><strong>能力-对齐差距</strong>（Stuart Russell）：能力提升速度系统性快于对齐工具成熟速度</li>
+        <li><strong>目标错误泛化</strong>（DeepMind 2023）：模型在训练环境对齐，在新场景可能展现不同目标</li>
+        <li><strong>Goodhart's Law：</strong>模型足够聪明时，会找到满足奖励函数而非真正意图的捷径</li>
+      </ul>
+      
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     06 — PROJECT GLASSWING
+     ============================ -->
+<section class="slide visible" data-tab="1">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content">
+      <div class="section-tag reveal"><span class="acc">06</span></div>
+      <div class="slide-h2 reveal">Project Glasswing: 用 Mythos <em>来防御 Mythos</em></div>
+      <div class="rule red reveal"></div>
+      <div class="two-col reveal">
+        <div style="border-right:1px solid var(--rule-color);padding-right:clamp(.65rem,1.6vw,1.3rem)">
+          <div style="font-family:&#39;DM Sans&#39;,sans-serif;font-size:var(--small-size);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.4em">计划</div>
+          <ul class="blist">
+            <li><strong>$1 亿</strong>使用额度 + <strong>$400 万</strong>开源基金</li>
+            <li>向 <strong>50+ 家科技组织</strong>开放 Mythos 访问权<br></li>
+            <li>90 天内公布第一份研究报告</li>
+          </ul>
+          <div class="bq" style="margin-top:var(--gap)">
+            <p>「更强大的系统将来自我们，也将来自其他公司。我们需要一个应对计划。」</p>
+            <cite>— Dario Amodei</cite>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:&#39;DM Sans&#39;,sans-serif;font-size:var(--small-size);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.4em">行业站台</div>
+          <ul class="blist">
+            <li><strong>Heather Adkins</strong>（Google VP of Security Engineering）</li>
+            <li><strong>Igor Tsyganskiy</strong>（Microsoft EVP of Cybersecurity）</li>
+            <li><strong>Katie Moussouris</strong>（Luta Security CEO）</li>
+          </ul>
+          <div class="body-text" style="margin-top:.5em;font-size:var(--small-size);color:var(--text-muted)">参与机构：AWS · Apple · Broadcom · Cisco · CrowdStrike · Google · JPMorganChase · Linux Foundation · Microsoft · NVIDIA · Palo Alto Networks</div>
+        </div>
+      </div>
+      <div class="insight reveal"><p>谁控制了漏洞发现能力，谁就控制了<strong>下一轮网络安全行业的入场券</strong>。</p></div>
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     07 — SECTION: PART 2
+     ============================ -->
+<section class="slide section-break visible" data-tab="1">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content">
+      <div class="part-label reveal">Part 2</div>
+      <div class="part-title reveal">Opus 4.7：<em>延续主流叙事，升级多模态</em></div>
+      <div class="rule red reveal" style="margin-top:clamp(.8rem,2.5vh,2rem)"></div>
+      <div class="body-text reveal" style="color:var(--text-muted);margin-top:0">视觉能力质的飞跃，价格没涨，账单涨了</div>
+      <div class="part-num">02</div>
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     08 — OPUS 4.7 多模态
+     ============================ -->
+<section class="slide visible" data-tab="1">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content" style="justify-content:center;gap:clamp(0.7rem,1.6vh,1.4rem)">
+      <div class="section-tag reveal"><span class="acc">08</span> · Claude Opus 4.7</div>
+      <div class="slide-h2 reveal">多模态能力提升：<em>接近满分</em></div>
+      <div class="rule red reveal"></div>
+      <table class="dtable reveal">
+        <thead><tr><th>评测</th><th>说明</th><th class="num">Opus 4.6</th><th class="num">Opus 4.7</th></tr></thead>
+        <tbody>
+          <tr><td><strong>XBOW</strong></td><td>视觉敏锐度</td><td class="num">54.5%</td><td class="num" style="color:var(--accent);font-weight:700">98.5%</td></tr>
+          <tr><td><strong>ScreenSpot-Pro</strong></td><td>高分辨率 UI 定位</td><td class="num">69.0%</td><td class="num"><strong>87.6%</strong></td></tr>
+          <tr><td><strong>SWE-bench MM</strong></td><td>看 UI 截图修前端 bug</td><td class="num">27.1%</td><td class="num"><strong>34.5%</strong></td></tr>
+        </tbody>
+      </table>
+      <ul class="blist reveal">
+        <li>Computer Use Agent 接管真实电脑的门槛<strong>大幅降低</strong></li>
+        <li><strong>Claude Design：</strong>视觉理解能力突破使 AI 可直接解读设计稿、UI 截图，开启界面自动化与设计审查新场景</li>
+      </ul>
+      <div class="insight reveal"><p>多模态不只是「能看图」，而是打开了整类<strong>过去无法自动化的工作</strong>。</p></div>
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     08b — OPUS 4.7 长文本降智
+     ============================ -->
+<section class="slide visible" data-tab="1">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content">
+      <div class="section-tag reveal"><span class="acc">08</span> · Claude Opus 4.7 · 另一面</div>
+      <div class="slide-h2 reveal">幻觉严重 + 推理能力变差<em></em></div>
+      <div class="rule red reveal"></div>
+      <div class="stats reveal" style="margin-top:calc(var(--gap)*0.8)">
+        <div><div class="stat-num">78.3%</div><div class="stat-label">Opus 4.6 · 1M 上下文检索准确率</div></div>
+        <div><div class="stat-num red">32.2%</div><div class="stat-label">Opus 4.7 · 同一测试</div></div>
+      </div>
+      <div class="body-text reveal" style="margin-top:calc(var(--gap)*0.8);margin-bottom:calc(var(--gap)*0.8)">幻觉严重：开始学会<strong>编造搜索行为</strong>，甚至凭空虚构出名为「Anton」的人物来解释代码逻辑。</div>
+      <div class="reveal" style="font-family:'DM Sans',sans-serif;font-size:var(--small-size);font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:calc(var(--gap)*0.5)">原因</div>
+      <ul class="blist reveal">
+        <li><strong>AdaptiveReasoning（自适应推理）：</strong>模型私自判断任务难度——面对它认为「简单」的问题自动进入省电模式，导致金融分析、物理计算等严谨任务出现不易察觉的 hallucination</li>
+        <li><strong>非原生多模态 → language degradation：</strong>后期多模态对齐损伤原有语言推理能力（alignment tax / catastrophic forgetting）。Moonshot 在 Kimi K2.5 技术报告中将 native multimodal + early joint optimization 列为避免此类冲突的核心设计选择</li>
+      </ul>
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     09 — OPUS 4.7 价格
+     ============================ -->
+<section class="slide visible" data-tab="1">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content">
+      <div class="section-tag reveal"><span class="acc">09</span> · Claude Opus 4.7</div>
+      <div class="slide-h2 reveal">价格没涨，账单可能<em>涨了 35%</em></div>
+      <div class="rule red reveal"></div>
+      <div class="price-box reveal">
+        <div class="price-col">
+          <div class="price-col-title">官方定价</div>
+          <div class="price-val">$5 / $25 <span style="font-size:.55em;color:var(--text-muted);font-family:&#39;DM Sans&#39;,sans-serif;font-weight:400">per MTok</span></div>
+          <div class="price-note">与 Opus 4.6 保持一致</div>
+        </div>
+        <div class="price-col alert">
+          <div class="price-col-title red">实际账单</div>
+          <div class="price-val"><span class="red">1.0–1.35×</span> token</div>
+          <div class="price-note">新 Tokenizer 导致相同输入产生更多 token</div>
+        </div>
+      </div>
+      <ul class="blist reveal">
+        <li><strong>新 Tokenizer：</strong>相同文本输入可能产生最多 <strong>35% 更多 token</strong></li>
+        <li><strong>xhigh Effort Level：</strong>推理密集任务显著增加输出 token</li>
+        <li>能力的确在进步；但相同工作量的<strong>实际成本已悄悄上涨</strong></li>
+      </ul>
+      <div class="insight reveal"><p>羊毛出在羊身上。看似定价不变，但<strong>成本在提升</strong></p></div>
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     10 — SECTION: PART 3
+     ============================ -->
+<section class="slide section-break visible" data-tab="2">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content">
+      <div class="part-label reveal">Part 3</div>
+      <div class="part-title reveal">Meta MuseSpark：<em>转向闭源，排名第四</em></div>
+      <div class="rule red reveal" style="margin-top:clamp(.8rem,2.5vh,2rem)"></div>
+      <div class="body-text reveal" style="color:var(--text-muted);margin-top:0">垂直领域信号 · 分发渠道优势 · 重估开源格局</div>
+      <div class="part-num">03</div>
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     11 — MUSE SPARK 排名
+     ============================ -->
+<section class="slide visible" data-tab="2">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content">
+      <div class="section-tag reveal"><span class="acc">11</span> · Meta MuseSpark</div>
+      <div class="slide-h2 reveal">综合排名第四，<em>但垂直领域或是未来信号</em></div>
+      <div class="rule red reveal"></div>
+      <div class="two-col reveal">
+        <div>
+          <table class="dtable">
+            <thead><tr><th>#</th><th>模型</th><th class="num">综合分</th></tr></thead>
+            <tbody>
+              <tr><td style="color:var(--text-muted)">1</td><td>Gemini 3.1 Pro</td><td class="num">57</td></tr>
+              <tr><td style="color:var(--text-muted)">1</td><td>GPT-5.4</td><td class="num">57</td></tr>
+              <tr><td style="color:var(--text-muted)">3</td><td>Claude Opus 4.6</td><td class="num">53</td></tr>
+              <tr class="hl"><td><strong>4</strong></td><td><strong>Muse Spark</strong></td><td class="num">52</td></tr>
+            </tbody>
+          </table>
+          <div class="body-text" style="margin-top:.5em;font-size:var(--small-size);color:var(--text-muted)">Artificial Analysis Intelligence Index</div>
+        </div>
+        <div>
+          <div style="font-family:&#39;DM Sans&#39;,sans-serif;font-size:var(--small-size);font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.4em">Meta 官方赢面</div>
+          <ul class="blist">
+            <li>HealthBench Hard：<strong>42.8</strong>（遥遥领先）</li>
+            <li>CharXiv 图表推理：<strong>86.4</strong></li>
+            <li>FrontierScience Research：<strong>38.3</strong> vs Gemini 23.3</li>
+          </ul>
+          <div style="font-family:&#39;DM Sans&#39;,sans-serif;font-size:var(--small-size);font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-top:.7em;margin-bottom:.4em">Meta 官方回避的</div>
+          <ul class="blist">
+            <li>SWE-Bench 编码：77.4 &lt; Opus 4.6 的 <strong>80.8</strong></li>
+            <li>ARC AGI 抽象推理：42.5 vs Gemini 的 <strong>76.5</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="insight reveal"><p>Meta 着重提升&amp;强调健康和科学，maybe Meta 在瞧瞧布局 <strong>AI 下一个垂直领域</strong></p></div>
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     12 — META 战场
+     ============================ -->
+     <section class="slide visible" data-tab="2">
+      <div class="paper paper-enter">
+        <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+        <div class="paper-content">
+          <div class="section-tag reveal"><span class="acc">12</span> · Meta 战略</div>
+          <div class="slide-h2 reveal">模型逐渐追赶，<em>Meta 坐拥分发渠道</em></div>
+          <div class="rule red reveal"></div>
+          <div class="stats reveal">
+            <div><div class="stat-num red">30亿+</div><div class="stat-label">潜在用户</div></div>
+          </div>
+          <div class="chips reveal">
+            <div class="chip">WhatsApp</div><div class="chip">Instagram</div><div class="chip">Facebook Messenger</div>
+          </div>
+          <ul class="blist reveal">
+            <li>Muse Spark 已集成进 30 亿+ 用户的日常 app<strong></strong></li>
+            <li>技术选择指向同一战场：多模态、<strong>空间推理</strong>、多 Agent 并行——分析照片、视频、现实场景</li>
+            <li>OpenAI/Anthropic 从 API 找增量；Meta 把 AI 推给自身 30 亿存量市场<strong></strong></li>
+          </ul>
+        </div>
+        <div class="tabs">
+          <div class="tab t1 active"><span class="tab-text">Claude</span></div>
+          <div class="tab t2"><span class="tab-text">Meta</span></div>
+          <div class="tab t3"><span class="tab-text">Google</span></div>
+        </div>
+      </div>
+    </section>
+
+<!-- ============================
+     14 — SECTION: PART 4
+     ============================ -->
+<section class="slide section-break visible" data-tab="3">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content">
+      <div class="part-label reveal">Part 4</div>
+      <div class="part-title reveal">Google Gemma 4：小模型持续开源<em></em></div>
+      <div class="rule red reveal" style="margin-top:clamp(.8rem,2.5vh,2rem)"></div>
+      <div class="body-text reveal" style="color:var(--text-muted);margin-top:0">效率前沿领跑 · 双轨策略：Gemma 端到端开源，Gemini 闭源api</div>
+      <div class="part-num">04</div>
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     15 — GEMMA 4 散点图
+     ============================ -->
+<section class="slide visible" data-tab="3">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content">
+      <div class="section-tag reveal"><span class="acc">15</span> · Google Gemma 4</div>
+      <div class="slide-h2 reveal">Gemma 4 在开源模型里<em>处于什么位置</em></div>
+      <div class="scatter-wrap reveal">
+        <div class="scatter">
+          <div class="s-ax-y">Artificial Analysis Intelligence Index</div>
+          <div class="s-ax-x">参数规模（对数刻度）</div>
+          <!-- Apache 2.0 efficiency frontier — passes through Gemma dots -->
+          <svg style="position:absolute;top:0;left:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:1">
+            <line x1="10%" y1="88%" x2="80%" y2="28%" stroke="#c41e3a" stroke-width="1.5" stroke-dasharray="6,4" opacity=".4"></line>
+          </svg>
+          <!-- Gemma 4 (Apache 2.0, red) — ON the frontier -->
+          <div class="s-dot red" style="left:16%;bottom:28%"></div>
+          <div class="s-lbl" style="left:16%;bottom:17%;color:#c41e3a;font-weight:600">Gemma 4B</div>
+          <div class="s-dot red" style="left:38%;bottom:45%"></div>
+          <div class="s-lbl" style="left:38%;bottom:34%;color:#c41e3a;font-weight:600">Gemma 12B</div>
+          <div class="s-dot red" style="left:63%;bottom:64%;width:clamp(11px,1.5vw,16px);height:clamp(11px,1.5vw,16px)"></div>
+          <div class="s-lbl" style="left:63%;bottom:53%;color:#c41e3a;font-weight:700">Gemma 4 31B ★</div>
+          <!-- Other open source (gray) -->
+          <div class="s-dot gray" style="left:29%;bottom:37%"></div>
+          <div class="s-lbl" style="left:29%;bottom:26%;color:#888">GLM-5.1 9B</div>
+          <div class="s-dot gray" style="left:47%;bottom:42%"></div>
+          <div class="s-lbl" style="left:47%;bottom:31%;color:#888">Llama 4 Scout 17B</div>
+          <!-- Qwen3.5 27B — ABOVE frontier (higher score=42, but non-Apache 2.0) -->
+          <div class="s-dot gray" style="left:57%;bottom:78%"></div>
+          <div class="s-lbl" style="left:57%;bottom:67%;color:#666;font-weight:600">Qwen3.5 27B</div>
+          <!-- DeepSeek V3 (blue, restricted open source) -->
+          <div class="s-dot blue" style="left:79%;bottom:50%"></div>
+          <div class="s-lbl" style="left:79%;bottom:39%;color:#4a8fd0">DeepSeek V3 37B</div>
+          <!-- X ticks -->
+          <div class="s-tick" style="left:16%">4B</div>
+          <div class="s-tick" style="left:29%">9B</div>
+          <div class="s-tick" style="left:38%">12B</div>
+          <div class="s-tick" style="left:47%">17B</div>
+          <div class="s-tick" style="left:57%">27B</div>
+          <div class="s-tick" style="left:63%">31B</div>
+          <div class="s-tick" style="left:79%">37B</div>
+        </div>
+      </div>
+      <div class="two-col reveal" style="margin-top:var(--gap)">
+        <div>
+          <div class="legend">
+            <div class="leg-item"><div class="leg-dot" style="background:#c41e3a"></div>Gemma 4 (Apache 2.0)</div>
+            <div class="leg-item"><div class="leg-dot" style="background:#4a8fd0"></div>限制性开源</div>
+            <div class="leg-item"><div class="leg-dot" style="background:#a0a0a0"></div>其他开源（非 Apache 2.0）</div>
+            <div class="leg-item" style="gap:.5em"><svg width="18" height="2"><line x1="0" y1="1" x2="18" y2="1" stroke="#c41e3a" stroke-dasharray="4,3" stroke-width="1.5" opacity=".45"></line></svg>Apache 2.0 效率前沿</div>
+          </div>
+          <div class="body-text" style="font-size:var(--small-size);color:var(--text-muted);margin-top:.4em">效率前沿 = 同等参数量下，Apache 2.0 模型能达到的最高性能边界</div>
+        </div>
+        <div class="body-text" style="font-size:var(--small-size);color:var(--text-muted)">数据来源：<strong style="color:var(--text-primary)">Artificial Analysis</strong> Intelligence Index · 4 亿累计下载 · 10 万社区变体</div>
+      </div>
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     16 — GOOGLE 双轨策略
+     ============================ -->
+<section class="slide visible" data-tab="3">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content">
+      <div class="section-tag reveal"><span class="acc">16</span> · Google Gemma 4</div>
+      <div class="slide-h2 reveal">Google 开源 Gemma 的<em>潜在逻辑</em></div>
+      <div class="rule red reveal"></div>
+      <div class="two-col reveal">
+        <div style="border-right:1px solid var(--rule-color);padding-right:clamp(.7rem,1.8vw,1.5rem)">
+          <div style="font-family:&#39;DM Sans&#39;,sans-serif;font-size:var(--small-size);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.5em">端侧：E2B/E4B = Gemini Nano 4</div>
+          <ul class="blist">
+            <li>Gemma E2B（2B 有效参数）就是手机上 <strong>Gemini Nano 4 的底层</strong></li>
+            <li>Qualcomm / MediaTek NPU 专项优化，预装 E2B/E4B 小模型，构建硬件生态锁定</li>
+          </ul>
+          <div style="margin-top:.7em;font-family:&#39;DM Sans&#39;,sans-serif;font-size:var(--small-size);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.4em">工作站/开发者：26B A4B &amp; 31B</div>
+          <ul class="blist">
+            <li>面向开发者和工作站，NVIDIA RTX 专项优化，仅需 <strong>18GB 内存</strong>（4-bit 量化）</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-family:&#39;DM Sans&#39;,sans-serif;font-size:var(--small-size);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.5em">Google 的真实收益</div>
+          <ul class="blist">
+            <li><strong>硬件生态建设：</strong>NVIDIA、Qualcomm、MediaTek 都围绕 Gemma 做专项优化，Gemma 有望在未来成为跨硬件的 AI 标准</li>
+            <li><strong>对抗 Meta/Mistral：</strong>维持 Google 在开源研究生态的话语权和品牌地位</li>
+            <li><strong>Apache 2.0 最宽松</strong>，同量级内编码领先，推理接近 DeepSeek V3</li>
+          </ul>
+        </div>
+      </div>
+      <div class="insight reveal" style="border-left-color:var(--rule-color);background:var(--bg-warm)">
+        <p style="color:var(--text-secondary)"><strong style="color:var(--text-primary)">对 startup 的影响：</strong>Apache 2.0 让医疗/金融数据敏感行业可以<strong style="color:var(--text-primary)">本地部署</strong></p>
+      </div>
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     16b — 开源战略重估
+     ============================ -->
+<section class="slide visible" data-tab="2">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content">
+      <div class="section-tag reveal"><span class="acc">·</span> 开源格局</div>
+      <div class="slide-h2 reveal">开源模型的战略价值<em>正在被重新定价</em></div>
+      <div class="rule red reveal"></div>
+      <div class="two-col reveal">
+        <div>
+          <div style="font-family:&#39;DM Sans&#39;,sans-serif;font-size:var(--small-size);font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.4em">当前现实</div>
+          <ul class="blist">
+            <li>知识、数学、科学推理：开闭源<strong>几乎持平 (除 Mythos)</strong></li>
+            <li>生产级编码和复杂 Agentic：闭源仍领先</li>
+            <li>开源成本低 70–90%，但闭源占 OpenRouter <strong>96% 营收</strong></li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-family:&#39;DM Sans&#39;,sans-serif;font-size:var(--small-size);font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.4em">正在发生的闭源转向</div>
+          <ul class="blist">
+            <li><strong>Qwen：</strong>3 天内发布 3 个闭源模型（Qwen3.5-Omni、Qwen3.6-Plus）</li>
+            <li>技术负责人 Lin Junyang 离职，由 Google DeepMind Gemini 背景的 <strong>Hao Zhou</strong> 接任</li>
+            <li><strong>Meta：</strong>Muse Spark 闭源，Llama 已死</li>
+          </ul>
+        </div>
+      </div>
+      <div class="insight reveal"><p><strong>开源是理念还是策略工具？</strong> 当工具完成使命，策略就会改变。Qwen 的转向是今年最值得观察的信号之一</p></div>
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================
+     17 — 总结
+     ============================ -->
+<section class="slide visible" data-tab="3">
+  <div class="paper paper-enter">
+    <div class="holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+    <div class="paper-content">
+      <div class="section-tag reveal"><span class="acc">17</span></div>
+      <div class="slide-h2 reveal"><em>总结</em></div>
+      <div class="rule red reveal"></div>
+      <div class="obs-block reveal">
+        <div class="obs-item">
+          <div class="obs-num">01</div>
+          <div class="obs-text"><strong>模型走向封闭，原生多模态成为各大模型厂后续迭代的技术路线</strong><br>顶尖 Lab 的最强模型正系统性脱离开源生态。Qwen 转向、Muse Spark 闭源</div>
+        </div>
+        <div class="obs-item">
+          <div class="obs-num">02</div>
+          <div class="obs-text"><strong>Frontier Lab 向垂类和端侧发力</strong><br>Gemma 4 端侧效率、Muse Spark HealthBench 领跑，通用大模型军备竞赛正向垂类场景和端侧延伸。</div>
+        </div>
+      </div>
+      <div class="insight reveal" style="margin-top:clamp(.5rem,1.8vh,1.3rem)"><p><strong></strong>下一轮关键词：分发渠道、垂类场景控制权、端侧硬件生态</p></div>
+      
+    </div>
+    <div class="tabs">
+      <div class="tab t1"><span class="tab-text">Claude</span></div>
+      <div class="tab t2 active"><span class="tab-text">Meta</span></div>
+      <div class="tab t3"><span class="tab-text">Google</span></div>
+    </div>
+  </div>
+</section>
+
+<script>
+/* === SLIDE CONTROLLER === */
+class SlidePresentation {
+  constructor() {
+    this.slides = Array.from(document.querySelectorAll('.slide'));
+    this.total = this.slides.length;
+    this.current = 0;
+    this.scrollLock = false;
+    this.progressBar = document.getElementById('progressBar');
+    this.counter = document.getElementById('slideCounter');
+    this.navContainer = document.getElementById('navDots');
+    this.buildDots();
+    this.observe();
+    this.keys();
+    this.touch();
+    this.wheel();
+  }
+
+  buildDots() {
+    this.slides.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'nav-dot';
+      d.setAttribute('aria-label', `幻灯片 ${i+1}`);
+      d.addEventListener('click', () => this.goTo(i));
+      this.navContainer.appendChild(d);
+    });
+    this.dots = Array.from(this.navContainer.querySelectorAll('.nav-dot'));
+  }
+
+  observe() {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          this.update(this.slides.indexOf(e.target));
+        }
+      });
+    }, { threshold: 0.5 });
+    this.slides.forEach(s => io.observe(s));
+  }
+
+  update(i) {
+    if (i < 0) return;
+    this.current = i;
+    this.progressBar.style.width = ((i+1)/this.total*100) + '%';
+    this.counter.textContent = (i+1) + ' / ' + this.total;
+    this.dots.forEach((d, j) => d.classList.toggle('active', j === i));
+    const activeTab = this.slides[i].dataset.tab;
+    document.querySelectorAll('.tab').forEach(t => {
+      const n = t.classList[1];
+      t.classList.toggle('active', n === 't' + activeTab);
+    });
+  }
+
+  goTo(i) {
+    i = Math.max(0, Math.min(this.total-1, i));
+    this.slides[i].scrollIntoView({ behavior: 'smooth' });
+  }
+
+  keys() {
+    document.addEventListener('keydown', e => {
+      if (e.target.getAttribute('contenteditable')) return;
+      const fwd = ['ArrowDown','ArrowRight',' ','PageDown'];
+      const bwd = ['ArrowUp','ArrowLeft','PageUp'];
+      if (fwd.includes(e.key)) { e.preventDefault(); this.goTo(this.current+1); }
+      else if (bwd.includes(e.key)) { e.preventDefault(); this.goTo(this.current-1); }
+      else if (e.key === 'Home') { e.preventDefault(); this.goTo(0); }
+      else if (e.key === 'End') { e.preventDefault(); this.goTo(this.total-1); }
+    });
+  }
+
+  touch() {
+    let sy = 0, sx = 0;
+    document.addEventListener('touchstart', e => { sy = e.touches[0].clientY; sx = e.touches[0].clientX; }, { passive: true });
+    document.addEventListener('touchend', e => {
+      const dy = sy - e.changedTouches[0].clientY;
+      const dx = sx - e.changedTouches[0].clientX;
+      if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 40) this.goTo(this.current + (dy > 0 ? 1 : -1));
+    }, { passive: true });
+  }
+
+  wheel() {
+    document.addEventListener('wheel', e => {
+      if (this.scrollLock) return;
+      this.scrollLock = true;
+      this.goTo(this.current + (e.deltaY > 0 ? 1 : -1));
+      setTimeout(() => { this.scrollLock = false; }, 820);
+    }, { passive: true });
+  }
+}
+
+/* === INLINE EDITOR === */
+class InlineEditor {
+  constructor() {
+    this.isActive = false;
+    this.key = 'ai-slides-apr26';
+    this.load();
+    this.setup();
+  }
+
+  toggle() {
+    this.isActive = !this.isActive;
+    const btn = document.getElementById('editToggle');
+    btn.classList.toggle('active', this.isActive);
+    btn.textContent = this.isActive ? '✓ 完成' : '✏ 编辑';
+    const sel = '.slide-title,.slide-h2,.body-text,.blist li,.insight p,.bq p,.obs-text,.section-tag,.stat-num,.stat-label,.dual-list li,.event-card p,.dtable td,.part-title,.part-label,.price-note,.price-val';
+    document.querySelectorAll(sel).forEach(el => {
+      if (this.isActive) { el.setAttribute('contenteditable','true'); el.setAttribute('spellcheck','false'); }
+      else el.removeAttribute('contenteditable');
+    });
+    if (!this.isActive) this.save();
+  }
+
+  save() {
+    try {
+      const contents = Array.from(document.querySelectorAll('.paper-content')).map(p => p.innerHTML);
+      localStorage.setItem(this.key, JSON.stringify(contents));
+    } catch(e) {}
+  }
+
+  load() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(this.key));
+      if (!saved) return;
+      document.querySelectorAll('.paper-content').forEach((p, i) => { if (saved[i]) p.innerHTML = saved[i]; });
+    } catch(e) {}
+  }
+
+  setup() {
+    const hotzone = document.getElementById('editHotzone');
+    const btn = document.getElementById('editToggle');
+    let timer = null;
+    const show = () => { clearTimeout(timer); btn.classList.add('show'); };
+    const hide = () => { timer = setTimeout(() => { if (!this.isActive) btn.classList.remove('show'); }, 400); };
+    hotzone.addEventListener('mouseenter', show);
+    hotzone.addEventListener('mouseleave', hide);
+    hotzone.addEventListener('click', () => this.toggle());
+    btn.addEventListener('mouseenter', show);
+    btn.addEventListener('mouseleave', hide);
+    btn.addEventListener('click', () => this.toggle());
+    document.addEventListener('keydown', e => {
+      if ((e.key === 'e' || e.key === 'E') && !e.target.getAttribute('contenteditable')) this.toggle();
+      if ((e.ctrlKey || e.metaKey) && e.key === 's' && this.isActive) { e.preventDefault(); this.save(); }
+    });
+  }
+}
+
+new SlidePresentation();
+new InlineEditor();
+</script>
+
+
+</body></html>
